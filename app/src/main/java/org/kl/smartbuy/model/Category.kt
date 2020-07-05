@@ -1,7 +1,14 @@
 package org.kl.smartbuy.model
 
-data class Category(val id: Int,
-                    val icon: Int,
-                    val name: String,
-                    val description: String,
-                    val products: List<Product>)
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "category")
+data class Category(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
+    val icon: Int,
+    val name: String,
+    val description: String,
+    val products: List<Product>
+)
