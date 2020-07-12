@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">smartbuy</string>
+
+    <string name="category_tab">CATEGORY</string>
+    <string name="purchase_tab">PURCHASE</string>
+
+    <string name="empty_category">List categories are empty</string>
+    <string name="empty_purchase">List purchases are empty</string>
+
 </resources>
