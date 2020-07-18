@@ -13,19 +13,19 @@ class PurchaseViewHolder : RecyclerView.ViewHolder {
     var dateTextView: TextView? = null
         private set
 
-    var itemImageView: ImageView? = null
+    var itemImage: ImageView? = null
         private set
-    var editImageView: ImageView? = null
+    var editImage: ImageView? = null
         private set
-    var deleteImageView: ImageView? = null
+    var deleteImage: ImageView? = null
         private set
 
     constructor(view: View) : super(view) {
         this.nameTextView = view.findViewById(R.id.name_purchase_text_view)
         this.dateTextView = view.findViewById(R.id.date_purchase_text_view)
 
-        this.itemImageView = view.findViewById(R.id.item_purchase_image)
-        this.editImageView = view.findViewById(R.id.edit_purchase_image)
-        this.deleteImageView = view.findViewById(R.id.delete_purchase_image)
+        this.itemImage = view.findViewById(R.id.item_purchase_image)
+        this.editImage = view.findViewById(R.id.edit_purchase_image)
+        this.deleteImage = view.findViewById(R.id.delete_purchase_image)
     }
 }

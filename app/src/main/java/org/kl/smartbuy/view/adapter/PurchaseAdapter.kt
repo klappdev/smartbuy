@@ -27,7 +27,7 @@ class PurchaseAdapter : RecyclerView.Adapter<PurchaseViewHolder> {
     override fun onBindViewHolder(holder: PurchaseViewHolder, position: Int) {
         holder.nameTextView?.text = listPurchases[position].name
         holder.dateTextView?.text = listPurchases[position].date
-        holder.itemImageView?.setImageResource(listPurchases[position].icon)
+        holder.itemImage?.setImageResource(listPurchases[position].icon)
 
     }
 
