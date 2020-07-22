@@ -1,4 +1,4 @@
-package org.kl.smartbuy.db
+package org.kl.smartbuy.db.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

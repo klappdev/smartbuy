@@ -36,11 +36,11 @@ class PurchaseFragment : Fragment() {
 
     private fun listPurchases(): List<Purchase> {
         return listOf(
-            Purchase(1, 0x1, "first purchase",  "01.01.2020", emptyList(), false),
-            Purchase(2, 0x2, "second purchase", "01.01.2020", emptyList(), false),
-            Purchase(3, 0x3, "third purchase",  "01.01.2020", emptyList(), false),
-            Purchase(4, 0x4, "fourth purchase", "01.01.2020", emptyList(), false),
-            Purchase(5, 0x5, "fifth purchase",  "01.01.2020", emptyList(), false)
+            Purchase(1, R.drawable.purchase_icon, "first purchase",  "01.01.2020", false),
+            Purchase(2, R.drawable.purchase_icon, "second purchase", "01.01.2020", false),
+            Purchase(3, R.drawable.purchase_icon, "third purchase",  "01.01.2020", false),
+            Purchase(4, R.drawable.purchase_icon, "fourth purchase", "01.01.2020", false),
+            Purchase(5, R.drawable.purchase_icon, "fifth purchase",  "01.01.2020", false)
         )
     }
 }

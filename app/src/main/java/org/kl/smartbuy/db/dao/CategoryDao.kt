@@ -1,4 +1,4 @@
-package org.kl.smartbuy.db
+package org.kl.smartbuy.db.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
@@ -7,8 +7,11 @@ import org.kl.smartbuy.model.Category
 @Dao
 interface CategoryDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(category: Category)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(plants: List<Category>)
 
     @Update
     suspend fun update(category: Category)

@@ -24,7 +24,7 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryViewHolder> {
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.categoryImage?.setImageResource(listCategories[position].icon)
+        holder.categoryImage?.setImageResource(R.drawable.purchase_icon)
         holder.nameTextView?.text = listCategories[position].name
     }
 
