@@ -13,7 +13,7 @@ import org.kl.smartbuy.model.Product
 import org.kl.smartbuy.model.Purchase
 
 @Database(entities = [Product::class, Category::class, Purchase::class], version = 1)
-abstract class PurchaseDatabase : RoomDatabase() {
+abstract class PurchaseDB : RoomDatabase() {
 
     abstract fun productDao(): ProductDao
     abstract fun categoryDao(): CategoryDao
@@ -21,12 +21,12 @@ abstract class PurchaseDatabase : RoomDatabase() {
 
     companion object {
         @Volatile @JvmStatic
-        private var instance: PurchaseDatabase? = null
+        private var instance: PurchaseDB? = null
 
         @JvmStatic
-        fun getInstance(context: Context): PurchaseDatabase {
+        fun getInstance(context: Context): PurchaseDB {
             if (instance == null) {
-                synchronized(PurchaseDatabase::class) {
+                synchronized(PurchaseDB::class) {
                     if (instance == null) {
                         instance = buildDatabase(context)
                     }
@@ -36,8 +36,8 @@ abstract class PurchaseDatabase : RoomDatabase() {
             return instance!!
         }
 
-        private fun buildDatabase(context: Context): PurchaseDatabase {
-            return Room.databaseBuilder(context, PurchaseDatabase::class.java, "smartbuy.db")
+        private fun buildDatabase(context: Context): PurchaseDB {
+            return Room.databaseBuilder(context, PurchaseDB::class.java, "smartbuy.db")
                        .addCallback(LoadInitDBCallback(context))
                        .build()
         }

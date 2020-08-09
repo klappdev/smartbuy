@@ -2,12 +2,14 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-
 apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
+    buildFeatures {
+        dataBinding = true
+    }
     defaultConfig {
         applicationId "org.kl.smartbuy"
         minSdkVersion 15
@@ -55,6 +57,7 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.5"
     implementation "androidx.room:room-runtime:2.2.5"
     implementation "androidx.room:room-ktx:2.2.5"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "androidx.room:room-compiler:2.2.5"
 
     testImplementation 'junit:junit:4.12'

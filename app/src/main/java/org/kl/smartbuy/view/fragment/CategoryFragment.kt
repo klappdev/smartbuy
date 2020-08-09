@@ -11,7 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.kl.smartbuy.R
-import org.kl.smartbuy.db.PurchaseDatabase
+import org.kl.smartbuy.db.PurchaseDB
 import org.kl.smartbuy.model.Category
 import org.kl.smartbuy.view.adapter.CategoryAdapter
 
@@ -38,7 +38,7 @@ class CategoryFragment : Fragment() {
     }
 
     private fun listCategories(context: Context): List<Category> {
-        val db = PurchaseDatabase.getInstance(context)
+        val db = PurchaseDB.getInstance(context)
         val data: LiveData<List<Category>> = db.categoryDao().getAll()
 
         return data.value ?: emptyList()

@@ -8,7 +8,7 @@ import com.google.gson.stream.JsonReader
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import kotlinx.coroutines.coroutineScope
-import org.kl.smartbuy.db.PurchaseDatabase
+import org.kl.smartbuy.db.PurchaseDB
 
 import org.kl.smartbuy.model.Category
 
@@ -21,7 +21,7 @@ class LoadInitDBWorker(context: Context,
                     val categoryType = object : TypeToken<List<Category>>(){}.type
                     val categories: List<Category> = Gson().fromJson(jsonReader, categoryType)
 
-                    val database = PurchaseDatabase.getInstance(applicationContext)
+                    val database = PurchaseDB.getInstance(applicationContext)
                     database.categoryDao().insertAll(categories)
 
                     Result.success()
