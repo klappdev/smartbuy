@@ -13,7 +13,7 @@ import org.kl.smartbuy.model.Product
 import org.kl.smartbuy.model.Purchase
 
 @Database(entities = [Product::class, Category::class, Purchase::class], version = 1)
-abstract class PurchaseDB : RoomDatabase() {
+abstract class PurchaseDB: RoomDatabase() {
 
     abstract fun productDao(): ProductDao
     abstract fun categoryDao(): CategoryDao

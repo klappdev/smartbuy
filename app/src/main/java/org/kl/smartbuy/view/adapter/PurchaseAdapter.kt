@@ -1,35 +1,25 @@
 package org.kl.smartbuy.view.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 
-import org.kl.smartbuy.R
+import org.kl.smartbuy.databinding.PurchaseItemBinding
+import org.kl.smartbuy.event.diff.PurchaseDifferenceCallback
 import org.kl.smartbuy.model.Purchase
 import org.kl.smartbuy.view.holder.PurchaseViewHolder
 
-class PurchaseAdapter : RecyclerView.Adapter<PurchaseViewHolder> {
-    private var context: Context
-    private var listPurchases: List<Purchase>
-
-    constructor(context: Context, list: List<Purchase>) {
-        this.context = context
-        this.listPurchases = list
-    }
+class PurchaseAdapter : ListAdapter<Purchase, PurchaseViewHolder>(PurchaseDifferenceCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PurchaseViewHolder {
-        val view = LayoutInflater.from(parent.context)
-                                 .inflate(R.layout.purchase_item, parent, false)
-        return PurchaseViewHolder(view)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = PurchaseItemBinding.inflate(inflater, parent, false)
+
+        return PurchaseViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: PurchaseViewHolder, position: Int) {
-        holder.nameTextView?.text = listPurchases[position].name
-        holder.dateTextView?.text = listPurchases[position].date
-        holder.itemImage?.setImageResource(listPurchases[position].icon)
-
+        val purchase = getItem(position)
+        holder.bind(purchase)
     }
-
-    override fun getItemCount() = listPurchases.size
 }
