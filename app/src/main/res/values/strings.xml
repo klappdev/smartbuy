@@ -6,7 +6,6 @@
 
     <string name="empty_category">List categories are empty</string>
     <string name="empty_purchase">List purchases are empty</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="category_name">Simple category</string>
 </resources>

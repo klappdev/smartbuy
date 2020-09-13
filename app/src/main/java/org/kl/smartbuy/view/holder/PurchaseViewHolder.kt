@@ -8,7 +8,6 @@ class PurchaseViewHolder(
     private val binding: PurchaseItemBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-
     fun bind(item: Purchase) {
         with(binding) {
             purchase = item

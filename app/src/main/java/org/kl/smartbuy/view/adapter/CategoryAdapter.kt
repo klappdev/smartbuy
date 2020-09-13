@@ -1,32 +1,25 @@
 package org.kl.smartbuy.view.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import org.kl.smartbuy.R
+import androidx.recyclerview.widget.ListAdapter
+
 import org.kl.smartbuy.model.Category
 import org.kl.smartbuy.view.holder.CategoryViewHolder
+import org.kl.smartbuy.event.diff.CategoryDifferenceCallback
+import org.kl.smartbuy.databinding.CategoryItemBinding
 
-class CategoryAdapter : RecyclerView.Adapter<CategoryViewHolder> {
-    private var context: Context
-    private var listCategories: List<Category>
-
-    constructor(context: Context, list: List<Category>) {
-        this.context = context
-        this.listCategories = list
-    }
+class CategoryAdapter : ListAdapter<Category, CategoryViewHolder>(CategoryDifferenceCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        val view = LayoutInflater.from(parent.context)
-                                 .inflate(R.layout.category_item, parent, false)
-        return CategoryViewHolder(view)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = CategoryItemBinding.inflate(inflater, parent, false)
+
+        return CategoryViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.categoryImage?.setImageResource(R.drawable.purchase_icon)
-        holder.nameTextView?.text = listCategories[position].name
+        val category = getItem(position)
+        holder.bind(category)
     }
-
-    override fun getItemCount() = listCategories.size
 }

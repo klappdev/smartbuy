@@ -1,54 +1,62 @@
 package org.kl.smartbuy.view.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
-import org.kl.smartbuy.R
-import org.kl.smartbuy.db.PurchaseDB
+
 import org.kl.smartbuy.model.Category
+import org.kl.smartbuy.util.Injector
 import org.kl.smartbuy.view.adapter.CategoryAdapter
+import org.kl.smartbuy.viewmodel.CategoryViewModel
+import org.kl.smartbuy.databinding.FragmentCategoryBinding
 
 class CategoryFragment : Fragment() {
     private lateinit var emptyTextView: TextView
     private lateinit var categoryRecyclerView: RecyclerView
     private lateinit var categoryAdapter: CategoryAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val rootView = inflater.inflate(R.layout.fragment_category, container, false)
-        setHasOptionsMenu(true)
-
-        this.emptyTextView = rootView.findViewById(R.id.category_empty_text_view)
-        this.categoryRecyclerView = rootView.findViewById(R.id.category_recycle_view)
-
-        val layoutManager = GridLayoutManager(context, 2)
-        categoryRecyclerView.layoutManager = layoutManager
-
-
-        this.categoryAdapter = CategoryAdapter(rootView.context, listCategories(rootView.context))
-        this.categoryRecyclerView.adapter = categoryAdapter
-
-        return rootView
+    private val categoryViewModel: CategoryViewModel by viewModels {
+        Injector.provideCategoryViewModelFactory(requireContext())
     }
 
-    private fun listCategories(context: Context): List<Category> {
-        val db = PurchaseDB.getInstance(context)
-        val data: LiveData<List<Category>> = db.categoryDao().getAll()
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        setHasOptionsMenu(true)
 
-        return data.value ?: emptyList()
+        val binding = FragmentCategoryBinding.inflate(inflater, container, false)
+
+        if (context == null) {
+            return binding.root
+        }
+
+        this.emptyTextView = binding.categoryEmptyTextView
+        this.categoryRecyclerView = binding.categoryRecycleView
+
+        categoryAdapter = CategoryAdapter()
+        categoryRecyclerView.adapter = categoryAdapter
+
+        subscribeUi(categoryAdapter)
+
+        return binding.root
+    }
+
+    private fun subscribeUi(adapter: CategoryAdapter) {
+        categoryViewModel.categories.observe(viewLifecycleOwner) { list: List<Category> ->
+            switchVisibility(list.isNotEmpty())
+            adapter.submitList(list)
+        }
     }
 
     private fun switchVisibility(flag: Boolean) {
         if (flag) {
             categoryRecyclerView.visibility = View.VISIBLE
             emptyTextView.visibility = View.GONE
-
         } else {
             categoryRecyclerView.visibility = View.GONE
             emptyTextView.visibility = View.VISIBLE

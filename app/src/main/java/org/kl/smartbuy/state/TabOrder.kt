@@ -3,7 +3,6 @@ package org.kl.smartbuy.state
 enum class TabOrder(val position: Int) {
     CATEGORY_TAB(0),
     PURCHASE_TAB(1);
-    /*SETTING_TAB*/
 
     companion object {
         @JvmStatic

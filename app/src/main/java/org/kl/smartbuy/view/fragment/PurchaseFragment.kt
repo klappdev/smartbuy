@@ -63,6 +63,19 @@ class PurchaseFragment : Fragment() {
     }
 
     private fun subscribeUi(adapter: PurchaseAdapter) {
-        purchaseViewModel.purchases.observe(viewLifecycleOwner, adapter::submitList)
+        purchaseViewModel.purchases.observe(viewLifecycleOwner) { list: List<Purchase> ->
+            switchVisibility(list.isNotEmpty())
+            adapter.submitList(list)
+        }
+    }
+
+    private fun switchVisibility(flag: Boolean) {
+        if (flag) {
+            purchaseRecycleView.visibility = View.VISIBLE
+            emptyTextView.visibility = View.GONE
+        } else {
+            purchaseRecycleView.visibility = View.GONE
+            emptyTextView.visibility = View.VISIBLE
+        }
     }
 }

@@ -11,7 +11,7 @@ interface CategoryDao {
     suspend fun insert(category: Category)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(plants: List<Category>)
+    suspend fun insertAll(categories: List<Category>)
 
     @Update
     suspend fun update(category: Category)

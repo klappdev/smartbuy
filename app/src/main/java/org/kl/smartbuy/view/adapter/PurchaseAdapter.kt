@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 
-import org.kl.smartbuy.databinding.PurchaseItemBinding
-import org.kl.smartbuy.event.diff.PurchaseDifferenceCallback
 import org.kl.smartbuy.model.Purchase
 import org.kl.smartbuy.view.holder.PurchaseViewHolder
+import org.kl.smartbuy.databinding.PurchaseItemBinding
+import org.kl.smartbuy.event.diff.PurchaseDifferenceCallback
 
 class PurchaseAdapter : ListAdapter<Purchase, PurchaseViewHolder>(PurchaseDifferenceCallback()) {
 
