@@ -1,13 +1,16 @@
 package org.kl.smartbuy.view.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
+import org.kl.smartbuy.R
 
 import org.kl.smartbuy.model.Purchase
 import org.kl.smartbuy.view.holder.PurchaseViewHolder
 import org.kl.smartbuy.databinding.PurchaseItemBinding
 import org.kl.smartbuy.event.diff.PurchaseDifferenceCallback
+import org.kl.smartbuy.util.toast
 
 class PurchaseAdapter : ListAdapter<Purchase, PurchaseViewHolder>(PurchaseDifferenceCallback()) {
 
@@ -20,6 +23,6 @@ class PurchaseAdapter : ListAdapter<Purchase, PurchaseViewHolder>(PurchaseDiffer
 
     override fun onBindViewHolder(holder: PurchaseViewHolder, position: Int) {
         val purchase = getItem(position)
-        holder.bind(purchase)
+        holder.bind(purchase, position)
     }
 }
