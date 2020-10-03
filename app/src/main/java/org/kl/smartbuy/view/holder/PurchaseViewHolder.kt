@@ -2,34 +2,36 @@ package org.kl.smartbuy.view.holder
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import org.kl.smartbuy.R
 
 import org.kl.smartbuy.databinding.PurchaseItemBinding
 import org.kl.smartbuy.model.Purchase
 import org.kl.smartbuy.util.toast
+import org.kl.smartbuy.event.purchase.ManagePurchaseListener
+import org.kl.smartbuy.R
 
 class PurchaseViewHolder(
     private val binding: PurchaseItemBinding
 ) : RecyclerView.ViewHolder(binding.root) {
-    private var rootView: View? = null
-
     init {
-        this.rootView = binding.root
-        this.rootView?.setOnClickListener { view: View? ->
-            view?.context?.toast("SELECT ONE PURCHASE")
+        binding.root.setOnClickListener(::navigateToPurchase)
+        binding.root.setOnLongClickListener(ManagePurchaseListener(this))
+
+        binding.deletePurchaseImage.setOnClickListener { view: View? ->
+            view?.context?.toast("SELECT DELETE PURCHASE")
         }
 
-        rootView?.setOnLongClickListener { view: View? ->
-            this.bindingAdapter?.notifyDataSetChanged()
-
-            true
+        binding.editPurchaseImage.setOnClickListener { view: View? ->
+            view?.context?.toast("SELECT EDIT PURCHASE")
         }
     }
 
-    fun bind(item: Purchase, position: Int) {
-		val binding = holder.binding
+    companion object {
+        @JvmStatic
+        internal var currentPosition: Int = -1
+    }
 
-        if (this.absoluteAdapterPosition == position) {
+    fun bind(item: Purchase, position: Int) {
+        if (currentPosition == position) {
             binding.itemPurchaseImage.setImageResource(R.drawable.purchase_selected_icon)
             binding.editPurchaseImage.visibility = View.VISIBLE
             binding.deletePurchaseImage.visibility = View.VISIBLE
@@ -43,5 +45,9 @@ class PurchaseViewHolder(
             purchase = item
             executePendingBindings()
         }
+    }
+
+    private fun navigateToPurchase(view: View?) {
+        view?.context?.toast("SELECT CURRENT PURCHASE")
     }
 }

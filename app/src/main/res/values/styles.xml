@@ -9,6 +9,14 @@
         <item name="colorSurface">@color/surface_color</item>
         <item name="colorSecondary">@color/secondary_color</item>
         <item name="android:colorBackground">@color/white_color</item>
+        <item name="android:actionMenuTextColor">@color/black_color</item>
+        <item name="searchViewStyle">@style/AppSearchViewStyle</item>
+    </style>
+
+    <style name="AppSearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="queryBackground">@android:color/transparent</item>
+        <item name="queryHint">@string/search_hint</item>
+        <item name="android:imeActionId">6</item>
     </style>
 
     <style name="Theme.Smartbuy" parent="Base.Theme.Smartbuy"/>

@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
 
-import org.kl.smartbuy.R
 import org.kl.smartbuy.databinding.FragmentPurchaseBinding
 import org.kl.smartbuy.model.Purchase
 import org.kl.smartbuy.util.Injector
@@ -32,11 +31,11 @@ class PurchaseFragment : Fragment() {
         super.onAttach(context)
 
         val listPurchases = listOf(
-            Purchase(1, R.drawable.purchase_icon, "first purchase",  "01.01.2020", false),
-            Purchase(2, R.drawable.purchase_icon, "second purchase", "01.01.2020", false),
-            Purchase(3, R.drawable.purchase_icon, "third purchase",  "01.01.2020", false),
-            Purchase(4, R.drawable.purchase_icon, "fourth purchase", "01.01.2020", false),
-            Purchase(5, R.drawable.purchase_icon, "fifth purchase",  "01.01.2020", false)
+            Purchase(1, "first purchase",  "01.01.2020"),
+            Purchase(2, "second purchase", "02.02.2020"),
+            Purchase(3, "third purchase",  "04.04.2020"),
+            Purchase(4, "fourth purchase", "08.08.2020"),
+            Purchase(5, "fifth purchase",  "12.12.2020")
         )
 
         purchaseViewModel.addPurchases(listPurchases, 5)
