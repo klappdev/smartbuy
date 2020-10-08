@@ -23,6 +23,6 @@ interface PurchaseDao {
     @Query("SELECT * FROM purchase WHERE id = :id")
     fun getById(id: Int): LiveData<Purchase>
 
-    @Query("SELECT * FROM purchase")
+    @Query("SELECT * FROM purchase ORDER BY name ASC")
     fun getAll(): LiveData<List<Purchase>>
 }

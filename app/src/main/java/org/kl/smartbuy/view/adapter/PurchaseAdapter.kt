@@ -8,8 +8,10 @@ import org.kl.smartbuy.model.Purchase
 import org.kl.smartbuy.view.holder.PurchaseViewHolder
 import org.kl.smartbuy.databinding.PurchaseItemBinding
 import org.kl.smartbuy.event.diff.PurchaseDifferenceCallback
+import org.kl.smartbuy.event.purchase.ManagePurchaseListener
 
 class PurchaseAdapter : ListAdapter<Purchase, PurchaseViewHolder>(PurchaseDifferenceCallback()) {
+    var notifyAction: ((Boolean) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PurchaseViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -21,5 +23,9 @@ class PurchaseAdapter : ListAdapter<Purchase, PurchaseViewHolder>(PurchaseDiffer
     override fun onBindViewHolder(holder: PurchaseViewHolder, position: Int) {
         val purchase = getItem(position)
         holder.bind(purchase, position)
+
+        holder.binding.root.setOnLongClickListener(ManagePurchaseListener(holder, notifyAction))
     }
+
+    fun getCurrentItem(): Purchase = super.getItem(PurchaseViewHolder.currentPosition)
 }

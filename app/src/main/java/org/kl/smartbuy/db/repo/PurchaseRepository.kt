@@ -11,8 +11,12 @@ class PurchaseRepository private constructor(private val purchaseDao: PurchaseDa
 
     fun getPurchases(): LiveData<List<Purchase>> = purchaseDao.getAll()
 
-    suspend fun createPurchases(listPurchases: List<Purchase>) {
+    suspend fun insertPurchases(listPurchases: List<Purchase>) {
         purchaseDao.insertAll(listPurchases)
+    }
+
+    suspend fun deletePurchase(purchase: Purchase) {
+        purchaseDao.delete(purchase)
     }
 
     companion object {

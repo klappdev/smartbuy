@@ -11,6 +11,7 @@ fun bindIconFromUrl(view: ImageView, imageUrl: String?) {
     if (!imageUrl.isNullOrEmpty()) {
         Glide.with(view.context)
             .load(imageUrl)
+            .placeholder(android.R.drawable.ic_menu_report_image)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(view)
     }

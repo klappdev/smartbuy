@@ -12,6 +12,7 @@ import org.kl.smartbuy.model.Purchase
 class PurchaseViewModel(
     private val purchaseRepository: PurchaseRepository
 ) : ViewModel() {
+    var isAsc: Boolean = false
     val purchases: LiveData<List<Purchase>> = purchaseRepository.getPurchases()
 
     fun addPurchases(listPurchases: List<Purchase>, limit: Int) {
@@ -19,8 +20,30 @@ class PurchaseViewModel(
 
         if (size <= limit) {
             viewModelScope.launch {
-                purchaseRepository.createPurchases(listPurchases)
+                purchaseRepository.insertPurchases(listPurchases)
             }
         }
+    }
+
+    fun removePurchase(purchase: Purchase) {
+        viewModelScope.launch {
+            purchaseRepository.deletePurchase(purchase)
+        }
+    }
+
+    fun sortPurchases(): List<Purchase>? {
+        var sortedPurchases: List<Purchase>? = null
+
+        viewModelScope.launch {
+            sortedPurchases = if (isAsc) {
+                purchases.value?.sortedBy(Purchase::date)
+            } else {
+                purchases.value?.sortedByDescending(Purchase::date)
+            }
+        }
+
+        isAsc = !isAsc
+
+        return sortedPurchases
     }
 }
