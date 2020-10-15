@@ -5,7 +5,7 @@ import org.kl.smartbuy.view.holder.PurchaseViewHolder
 
 class ManagePurchaseListener(
     private val purchaseViewHolder: PurchaseViewHolder,
-    var notifyAction: ((Boolean) -> Unit)?
+    var notifyAction: ((Boolean) -> Boolean)?
 ) : View.OnLongClickListener {
 
     override fun onLongClick(view: View?): Boolean {

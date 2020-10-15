@@ -1,33 +1,30 @@
 package org.kl.smartbuy.view.fragment
 
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
 
-import org.kl.smartbuy.databinding.FragmentPurchaseBinding
 import org.kl.smartbuy.model.Purchase
 import org.kl.smartbuy.util.Injector
-import org.kl.smartbuy.util.toast
 import org.kl.smartbuy.view.MainActivity
 import org.kl.smartbuy.view.adapter.PurchaseAdapter
 import org.kl.smartbuy.viewmodel.PurchaseViewModel
+import org.kl.smartbuy.databinding.FragmentPurchaseBinding
 
 class PurchaseFragment : Fragment() {
     private lateinit var emptyTextView: TextView
     private lateinit var purchaseRecycleView: RecyclerView
-    private lateinit var purchaseAdapter: PurchaseAdapter
+    internal lateinit var purchaseAdapter: PurchaseAdapter
 
-    private val purchaseViewModel: PurchaseViewModel by viewModels {
+    internal val purchaseViewModel: PurchaseViewModel by viewModels {
         Injector.providePurchaseViewModelFactory(requireContext())
     }
 
@@ -49,10 +46,7 @@ class PurchaseFragment : Fragment() {
         setHasOptionsMenu(true)
 
         val binding = FragmentPurchaseBinding.inflate(inflater, container, false)
-
-        if (context == null) {
-            return binding.root
-        }
+        context ?: return binding.root
 
         val mainActivity = (activity as MainActivity)
         mainActivity.purchaseFragment = this
@@ -84,32 +78,5 @@ class PurchaseFragment : Fragment() {
             purchaseRecycleView.visibility = View.GONE
             emptyTextView.visibility = View.VISIBLE
         }
-    }
-
-    internal fun removeAction() {
-        val positiveAction: (DialogInterface, Int) -> Unit = { _, _ ->
-            val purchase: Purchase = purchaseAdapter.getCurrentItem()
-            purchaseViewModel.removePurchase(purchase)
-        }
-
-        val negativeAction: (DialogInterface, Int) -> Unit = { dialog, _ ->
-            dialog.cancel()
-        }
-
-        val dialog = AlertDialog.Builder(context!!)
-        dialog.setTitle("Delete purchase")
-            .setMessage("Do you want delete purchase?")
-            .setCancelable(false)
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .setPositiveButton("Yes", positiveAction)
-            .setNegativeButton("No",  negativeAction)
-        dialog.show()
-    }
-
-    internal fun sortAction() {
-        val sortedPurchases: List<Purchase>? = purchaseViewModel.sortPurchases()
-
-        purchaseAdapter.submitList(sortedPurchases)
-        purchaseAdapter.notifyDataSetChanged()
     }
 }

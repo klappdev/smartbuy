@@ -11,7 +11,7 @@ import org.kl.smartbuy.event.diff.PurchaseDifferenceCallback
 import org.kl.smartbuy.event.purchase.ManagePurchaseListener
 
 class PurchaseAdapter : ListAdapter<Purchase, PurchaseViewHolder>(PurchaseDifferenceCallback()) {
-    var notifyAction: ((Boolean) -> Unit)? = null
+    var notifyAction: ((Boolean) -> Boolean)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PurchaseViewHolder {
         val inflater = LayoutInflater.from(parent.context)

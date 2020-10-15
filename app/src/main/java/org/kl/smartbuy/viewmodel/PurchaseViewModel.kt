@@ -46,4 +46,14 @@ class PurchaseViewModel(
 
         return sortedPurchases
     }
+
+    fun searchPurchases(text: String): List<Purchase>? {
+        var searchedPurchases: List<Purchase>? = null
+
+        viewModelScope.launch {
+            searchedPurchases = purchases.value?.filter { text in it.name }
+        }
+
+        return searchedPurchases
+    }
 }
