@@ -15,6 +15,10 @@ class PurchaseRepository private constructor(private val purchaseDao: PurchaseDa
         purchaseDao.insertAll(listPurchases)
     }
 
+    suspend fun updatePurchase(purchase: Purchase) {
+        purchaseDao.update(purchase)
+    }
+
     suspend fun deletePurchase(purchase: Purchase) {
         purchaseDao.delete(purchase)
     }

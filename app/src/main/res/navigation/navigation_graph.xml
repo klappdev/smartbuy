@@ -10,20 +10,22 @@
         android:id="@+id/view_pager_fragment"
         android:name="org.kl.smartbuy.view.fragment.TabPagerFragment"
         tools:layout="@layout/fragment_view_pager">
+
+        <action
+            android:id="@+id/action_tab_pager_fragment_to_edit_purchase_activity"
+            app:destination="@id/edit_purchase_activity"/>
     </fragment>
 
-<!--    <fragment-->
-<!--        android:id="@+id/category_fragment"-->
-<!--        android:name="org.kl.smartbuy.view.fragment.CategoryFragment"-->
-<!--        android:label="@string/category_tab"-->
-<!--        tools:layout="@layout/fragment_category">-->
-<!--    </fragment>-->
+    <activity
+        android:id="@+id/edit_purchase_activity"
+        android:name="org.kl.smartbuy.view.EditPurchaseActivity"
+        android:label="@string/edit_purchase_title"
+        tools:layout="@layout/activity_edit_purchase">
 
-    <fragment
-        android:id="@+id/purchase_fragment"
-        android:name="org.kl.smartbuy.view.fragment.PurchaseFragment"
-        android:label="@string/purchase_tab"
-        tools:layout="@layout/fragment_purchase">
-    </fragment>
+        <argument
+            android:name="purchaseId"
+            app:argType="integer"
+            android:defaultValue="0"/>
+    </activity>
 
 </navigation>

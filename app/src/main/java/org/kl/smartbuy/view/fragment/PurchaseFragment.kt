@@ -2,9 +2,7 @@ package org.kl.smartbuy.view.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 
 import androidx.fragment.app.Fragment
@@ -12,20 +10,22 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
 
+import org.kl.smartbuy.R
 import org.kl.smartbuy.model.Purchase
 import org.kl.smartbuy.util.Injector
 import org.kl.smartbuy.view.MainActivity
 import org.kl.smartbuy.view.adapter.PurchaseAdapter
-import org.kl.smartbuy.viewmodel.PurchaseViewModel
+import org.kl.smartbuy.viewmodel.PurchaseListViewModel
 import org.kl.smartbuy.databinding.FragmentPurchaseBinding
 
-class PurchaseFragment : Fragment() {
+class PurchaseFragment : Fragment(R.layout.fragment_purchase) {
     private lateinit var emptyTextView: TextView
     private lateinit var purchaseRecycleView: RecyclerView
     internal lateinit var purchaseAdapter: PurchaseAdapter
+    private var binding: FragmentPurchaseBinding? = null
 
-    internal val purchaseViewModel: PurchaseViewModel by viewModels {
-        Injector.providePurchaseViewModelFactory(requireContext())
+    internal val purchasesViewModel: PurchaseListViewModel by viewModels {
+        Injector.providePurchaseListViewModelFactory(requireContext())
     }
 
     override fun onAttach(context: Context) {
@@ -39,32 +39,36 @@ class PurchaseFragment : Fragment() {
             Purchase(5, "fifth purchase",  "12.12.2020")
         )
 
-        purchaseViewModel.addPurchases(listPurchases, 5)
+        purchasesViewModel.addPurchases(listPurchases, 5)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-        val binding = FragmentPurchaseBinding.inflate(inflater, container, false)
-        context ?: return binding.root
+        val innerBinding = FragmentPurchaseBinding.bind(view)
+        this.binding = innerBinding
 
         val mainActivity = (activity as MainActivity)
         mainActivity.purchaseFragment = this
 
-        this.emptyTextView = binding.purchaseEmptyTextView
-        this.purchaseRecycleView = binding.purchaseRecycleView
+        this.emptyTextView = innerBinding.purchaseEmptyTextView
+        this.purchaseRecycleView = innerBinding.purchaseRecycleView
 
         purchaseAdapter = PurchaseAdapter()
         purchaseAdapter.notifyAction = mainActivity::notifyItemSelected
         purchaseRecycleView.adapter = purchaseAdapter
 
         subscribeUi(purchaseAdapter)
+    }
 
-        return binding.root
+    override fun onDestroyView() {
+        this.binding = null
+        super.onDestroyView()
     }
 
     private fun subscribeUi(adapter: PurchaseAdapter) {
-        purchaseViewModel.purchases.observe(viewLifecycleOwner) { list: List<Purchase> ->
+        purchasesViewModel.purchases.observe(viewLifecycleOwner) { list: List<Purchase> ->
             switchVisibility(list.isNotEmpty())
             adapter.submitList(list)
         }

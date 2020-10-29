@@ -28,4 +28,5 @@ class PurchaseAdapter : ListAdapter<Purchase, PurchaseViewHolder>(PurchaseDiffer
     }
 
     fun getCurrentItem(): Purchase = super.getItem(PurchaseViewHolder.currentPosition)
+    fun getCurrentItemId(): Int = super.getItem(PurchaseViewHolder.currentPosition).id.toInt()
 }

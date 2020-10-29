@@ -1,47 +1,45 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<layout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="org.kl.smartbuy.view.fragment.CategoryFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/category_recycle_view"
+        android:paddingTop="4dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:orientation="vertical"
-        tools:context="org.kl.smartbuy.view.fragment.CategoryFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/category_recycle_view"
-            android:paddingTop="4dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        app:spanCount="@integer/grid_columns"
 
-            android:clipToPadding="false"
-            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-            app:spanCount="@integer/grid_columns"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
 
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
+        tools:listitem="@layout/category_item"
+        tools:context="org.kl.smartbuy.view.MainActivity" />
 
-            tools:listitem="@layout/category_item"
-            tools:context="org.kl.smartbuy.view.MainActivity" />
+    <TextView
+        android:id="@+id/category_empty_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
 
-        <TextView
-            android:id="@+id/category_empty_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:text="@string/empty_category"
+        android:visibility="gone"/>
 
-            android:gravity="center"
-            android:text="@string/empty_category"
-            android:visibility="gone"/>
-
-    </RelativeLayout>
-</layout>
+</RelativeLayout>

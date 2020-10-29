@@ -13,7 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Smartbuy"
         tools:ignore="GoogleAppIndexingWarning">
-
         <activity
             android:name=".view.MainActivity"
             android:label="@string/app_name"
@@ -23,6 +22,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".view.EditPurchaseActivity">
         </activity>
     </application>
 

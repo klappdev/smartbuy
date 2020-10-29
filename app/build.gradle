@@ -9,6 +9,7 @@ android {
     compileSdkVersion rootProject.compileSdkVersion
     buildFeatures {
         dataBinding = true
+        viewBinding = true
     }
     defaultConfig {
         applicationId "org.kl.smartbuy"

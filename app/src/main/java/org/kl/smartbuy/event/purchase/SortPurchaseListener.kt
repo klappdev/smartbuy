@@ -8,7 +8,7 @@ class SortPurchaseListener(private val activity: MainActivity) {
 
     operator fun invoke(): Boolean {
         val purchaseFragment: PurchaseFragment? = activity.purchaseFragment
-        val sortedPurchases: List<Purchase>? = purchaseFragment?.purchaseViewModel?.sortPurchases()
+        val sortedPurchases: List<Purchase>? = purchaseFragment?.purchasesViewModel?.sortPurchases()
 
         with(purchaseFragment?.purchaseAdapter) {
             this?.submitList(sortedPurchases)

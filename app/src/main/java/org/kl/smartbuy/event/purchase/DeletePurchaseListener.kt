@@ -27,7 +27,7 @@ class DeletePurchaseListener(private val activity: MainActivity) {
         val purchase: Purchase? = purchaseFragment?.purchaseAdapter?.getCurrentItem()
 
         if (purchase != null) {
-            purchaseFragment.purchaseViewModel.removePurchase(purchase)
+            purchaseFragment.purchasesViewModel.removePurchase(purchase)
         }
     }
 

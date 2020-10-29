@@ -1,7 +1,6 @@
 package org.kl.smartbuy.viewmodel
 
 import kotlinx.coroutines.launch
-
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import org.kl.smartbuy.db.repo.PurchaseRepository
 import org.kl.smartbuy.model.Purchase
 
-class PurchaseViewModel(
+class PurchaseListViewModel(
     private val purchaseRepository: PurchaseRepository
 ) : ViewModel() {
     var isAsc: Boolean = false

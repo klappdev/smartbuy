@@ -1,26 +1,29 @@
 package org.kl.smartbuy.view.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
 
-import org.kl.smartbuy.databinding.FragmentViewPagerBinding
-import org.kl.smartbuy.state.TabOrder
-import org.kl.smartbuy.view.adapter.TabPagerAdapter
 import org.kl.smartbuy.R
+import org.kl.smartbuy.state.TabOrder
 import org.kl.smartbuy.state.TabOrder.*
+import org.kl.smartbuy.view.adapter.TabPagerAdapter
+import org.kl.smartbuy.databinding.FragmentViewPagerBinding
 
-class TabPagerFragment : Fragment() {
+class TabPagerFragment : Fragment(R.layout.fragment_view_pager) {
+    private var binding: FragmentViewPagerBinding? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val binding = FragmentViewPagerBinding.inflate(inflater, container, false)
-        val tabLayout = binding.tabs
-        val viewPager = binding.viewPager
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val innerBinding = FragmentViewPagerBinding.bind(view)
+        this.binding = innerBinding
+
+        val tabLayout = innerBinding.tabs
+        val viewPager = innerBinding.viewPager
 
         viewPager.adapter = TabPagerAdapter(this)
 
@@ -28,9 +31,12 @@ class TabPagerFragment : Fragment() {
             tab.text = getTabTitle(position)
         }.attach()
 
-        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        (activity as AppCompatActivity).setSupportActionBar(innerBinding.toolbar)
+    }
 
-        return binding.root
+    override fun onDestroyView() {
+        this.binding = null
+        super.onDestroyView()
     }
 
     private fun getTabTitle(position: Int): String? {

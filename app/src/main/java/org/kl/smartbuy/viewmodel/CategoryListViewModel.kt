@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import org.kl.smartbuy.model.Category
 import org.kl.smartbuy.db.repo.CategoryRepository
 
-class CategoryViewModel(
+class CategoryListViewModel(
     private val categoryRepository: CategoryRepository
 ) : ViewModel() {
     val categories: LiveData<List<Category>> = categoryRepository.getCategories()

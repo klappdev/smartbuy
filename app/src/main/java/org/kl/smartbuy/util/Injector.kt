@@ -4,8 +4,9 @@ import android.content.Context
 import org.kl.smartbuy.db.PurchaseDB
 import org.kl.smartbuy.db.repo.CategoryRepository
 import org.kl.smartbuy.db.repo.PurchaseRepository
-import org.kl.smartbuy.viewmodel.CategoryViewModelFactory
-import org.kl.smartbuy.viewmodel.PurchaseViewModelFactory
+import org.kl.smartbuy.viewmodel.CategoryListViewModelFactory
+import org.kl.smartbuy.viewmodel.PurchaseDetailViewModelFactory
+import org.kl.smartbuy.viewmodel.PurchaseListViewModelFactory
 
 object Injector {
 
@@ -21,11 +22,16 @@ object Injector {
         return CategoryRepository.getInstance(categoryDao)
     }
 
-    fun providePurchaseViewModelFactory(context: Context): PurchaseViewModelFactory {
-        return PurchaseViewModelFactory(getPurchaseRepository(context))
+    fun providePurchaseDetailViewModelFactory(context: Context, id: Int) : PurchaseDetailViewModelFactory {
+        return PurchaseDetailViewModelFactory(getPurchaseRepository(context), id)
     }
 
-    fun provideCategoryViewModelFactory(context: Context): CategoryViewModelFactory {
-        return CategoryViewModelFactory(getCategoryRepository(context))
+
+    fun providePurchaseListViewModelFactory(context: Context): PurchaseListViewModelFactory {
+        return PurchaseListViewModelFactory(getPurchaseRepository(context))
+    }
+
+    fun provideCategoryListViewModelFactory(context: Context): CategoryListViewModelFactory {
+        return CategoryListViewModelFactory(getCategoryRepository(context))
     }
 }

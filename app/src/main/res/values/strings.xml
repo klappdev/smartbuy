@@ -4,12 +4,21 @@
     <string name="category_tab">Category</string>
     <string name="purchase_tab">Purchase</string>
 
+    <string name="edit_purchase_title">Edit Purchase</string>
+    <string name="view_purchase_title">View Purchase</string>
+
     <string name="empty_category">List categories are empty</string>
     <string name="empty_purchase">List purchases are empty</string>
 
     <string name="category_name">Simple category</string>
+    <string name="purchase_name">Simple purchase</string>
+
     <string name="sort_title">Sort</string>
     <string name="delete_title">Delete</string>
     <string name="edit_title">Edit</string>
     <string name="search_hint">Search …</string>
+
+    <string name="name_hint">name</string>
+    <string name="description_hint">description</string>
+    <string name="date_hint">hh/MM/yyyy</string>
 </resources>
