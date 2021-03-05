@@ -1,26 +1,52 @@
+/*
+ * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2020 - 2021 https://github.com/klappdev
+ *
+ * Permission is hereby  granted, free of charge, to any  person obtaining a copy
+ * of this software and associated  documentation files (the "Software"), to deal
+ * in the Software  without restriction, including without  limitation the rights
+ * to  use, copy,  modify, merge,  publish, distribute,  sublicense, and/or  sell
+ * copies  of  the Software,  and  to  permit persons  to  whom  the Software  is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE  IS PROVIDED "AS  IS", WITHOUT WARRANTY  OF ANY KIND,  EXPRESS OR
+ * IMPLIED,  INCLUDING BUT  NOT  LIMITED TO  THE  WARRANTIES OF  MERCHANTABILITY,
+ * FITNESS FOR  A PARTICULAR PURPOSE AND  NONINFRINGEMENT. IN NO EVENT  SHALL THE
+ * AUTHORS  OR COPYRIGHT  HOLDERS  BE  LIABLE FOR  ANY  CLAIM,  DAMAGES OR  OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF  CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package org.kl.smartbuy.viewmodel
 
-import kotlinx.coroutines.launch
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 import org.kl.smartbuy.db.repo.PurchaseRepository
 import org.kl.smartbuy.model.Purchase
 
-class PurchaseListViewModel(
+@HiltViewModel
+class PurchaseListViewModel @Inject constructor(
     private val purchaseRepository: PurchaseRepository
 ) : ViewModel() {
-    var isAsc: Boolean = false
-    val purchases: LiveData<List<Purchase>> = purchaseRepository.getPurchases()
+    private var isAsc: Boolean = false
+    private var purchases: Flow<PagingData<Purchase>>? = null
 
-    fun addPurchases(listPurchases: List<Purchase>, limit: Int) {
-        val size: Int = purchases.value?.size ?: 0
-
-        if (size <= limit) {
-            viewModelScope.launch {
-                purchaseRepository.insertPurchases(listPurchases)
-            }
+    fun addPurchases(listPurchases: List<Purchase>) {
+        viewModelScope.launch {
+            purchaseRepository.insertPurchases(listPurchases)
         }
     }
 
@@ -30,29 +56,40 @@ class PurchaseListViewModel(
         }
     }
 
-    fun sortPurchases(): List<Purchase>? {
-        var sortedPurchases: List<Purchase>? = null
+    fun getPurchases(action: suspend (PagingData<Purchase>) -> Unit) {
+        val result = purchaseRepository.getPurchases().cachedIn(viewModelScope)
+
+        purchases = result
 
         viewModelScope.launch {
-            sortedPurchases = if (isAsc) {
-                purchases.value?.sortedBy(Purchase::date)
-            } else {
-                purchases.value?.sortedByDescending(Purchase::date)
+            result.collectLatest { data ->
+                action(data)
             }
         }
-
-        isAsc = !isAsc
-
-        return sortedPurchases
     }
 
-    fun searchPurchases(text: String): List<Purchase>? {
-        var searchedPurchases: List<Purchase>? = null
+    fun sortPurchases(action: suspend (PagingData<Purchase>) -> Unit) {
+        val result = purchaseRepository.sortByDatePurchases(isAsc).cachedIn(viewModelScope)
+
+        isAsc = !isAsc
+        purchases = result
 
         viewModelScope.launch {
-            searchedPurchases = purchases.value?.filter { text in it.name }
+            result.collectLatest { data ->
+                action(data)
+            }
         }
+    }
 
-        return searchedPurchases
+    fun searchPurchases(text: String, action: suspend (PagingData<Purchase>) -> Unit) {
+        val result = purchaseRepository.searchByNamePurchases("%$text%").cachedIn(viewModelScope)
+
+        purchases = result
+
+        viewModelScope.launch {
+            result.collectLatest { data ->
+                action(data)
+            }
+        }
     }
 }

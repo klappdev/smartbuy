@@ -18,7 +18,7 @@
 
     <activity
         android:id="@+id/edit_purchase_activity"
-        android:name="org.kl.smartbuy.view.EditPurchaseActivity"
+        android:name="org.kl.smartbuy.view.activity.EditPurchaseActivity"
         android:label="@string/edit_purchase_title"
         tools:layout="@layout/activity_edit_purchase">
 

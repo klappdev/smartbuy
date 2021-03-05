@@ -1,3 +1,26 @@
+/*
+ * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2020 - 2021 https://github.com/klappdev
+ *
+ * Permission is hereby  granted, free of charge, to any  person obtaining a copy
+ * of this software and associated  documentation files (the "Software"), to deal
+ * in the Software  without restriction, including without  limitation the rights
+ * to  use, copy,  modify, merge,  publish, distribute,  sublicense, and/or  sell
+ * copies  of  the Software,  and  to  permit persons  to  whom  the Software  is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE  IS PROVIDED "AS  IS", WITHOUT WARRANTY  OF ANY KIND,  EXPRESS OR
+ * IMPLIED,  INCLUDING BUT  NOT  LIMITED TO  THE  WARRANTIES OF  MERCHANTABILITY,
+ * FITNESS FOR  A PARTICULAR PURPOSE AND  NONINFRINGEMENT. IN NO EVENT  SHALL THE
+ * AUTHORS  OR COPYRIGHT  HOLDERS  BE  LIABLE FOR  ANY  CLAIM,  DAMAGES OR  OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF  CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package org.kl.smartbuy.event.purchase
 
 import android.view.MenuItem
@@ -7,15 +30,15 @@ import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 
 import org.kl.smartbuy.R
-import org.kl.smartbuy.model.Purchase
-import org.kl.smartbuy.view.MainActivity
-import org.kl.smartbuy.viewmodel.PurchaseListViewModel
 import org.kl.smartbuy.view.fragment.PurchaseFragment
-import org.kl.smartbuy.view.holder.PurchaseViewHolder
 
 class SearchPurchaseListener(
-    private val activity: MainActivity
+    fragment: PurchaseFragment
 ) : View.OnClickListener, MenuItem.OnActionExpandListener, SearchView.OnQueryTextListener {
+    private val activity = fragment.parentActivity
+    private val purchaseAdapter = fragment.purchaseAdapter
+    private val purchasesViewModel = fragment.purchasesViewModel
+
     private var searchView: SearchView? = null
     private var searchInput: TextView? = null
     private var closeIcon: ImageView? = null
@@ -23,16 +46,14 @@ class SearchPurchaseListener(
 
     override fun onQueryTextChange(newText: String?): Boolean {
         if (!newText.isNullOrEmpty()) {
-            val purchaseFragment: PurchaseFragment? = activity.purchaseFragment
-            val purchasesViewModel: PurchaseListViewModel? = purchaseFragment?.purchasesViewModel
-            val searchedPurchases: List<Purchase>? = purchasesViewModel?.searchPurchases(newText)
+            purchasesViewModel.searchPurchases(newText) { data ->
+                purchaseAdapter.submitData(data)
+                purchaseAdapter.notifyDataSetChanged()
 
-            with(purchaseFragment?.purchaseAdapter) {
-                this?.submitList(searchedPurchases)
-                this?.notifyDataSetChanged()
+                currentSize = purchaseAdapter.itemCount
             }
-
-            this.currentSize = searchedPurchases?.size ?: 0
+        } else {
+            refreshPurchases()
         }
 
         return true
@@ -55,31 +76,27 @@ class SearchPurchaseListener(
     }
 
     override fun onMenuItemActionCollapse(view: MenuItem?): Boolean {
-        PurchaseViewHolder.currentPosition = -1
-        activity.notifyItemSelected(false)
-        restorePurchases()
+        purchaseAdapter.position = -1
+        activity.notifyMenuItemSelected(false)
+        refreshPurchases()
 
         return true
     }
 
     override fun onClick(view: View?) {
-        restorePurchases()
-        this.searchInput?.text = ""
+        refreshPurchases()
+        searchInput?.text = ""
     }
 
-    private fun restorePurchases() {
-        val purchaseFragment: PurchaseFragment? = activity.purchaseFragment
-        val purchases: List<Purchase>? = purchaseFragment?.purchasesViewModel?.purchases?.value
+    private fun refreshPurchases() {
+        purchasesViewModel.getPurchases { data ->
+            if (currentSize != -1) {
+                purchaseAdapter.submitData(data)
+                purchaseAdapter.notifyDataSetChanged()
 
-        if (currentSize == -1 || currentSize == purchases?.size) {
-            return
+                currentSize = -1
+            }
+
         }
-
-        with(purchaseFragment?.purchaseAdapter) {
-            this?.submitList(purchases)
-            this?.notifyDataSetChanged()
-        }
-
-        this.currentSize = -1
     }
 }

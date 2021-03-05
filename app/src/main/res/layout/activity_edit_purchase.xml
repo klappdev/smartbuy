@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="center_vertical"
-        tools:context=".view.EditPurchaseActivity">
+        tools:context=".view.activity.EditPurchaseActivity">
 
         <ImageView
             android:id="@+id/item_purchase_image"
@@ -42,7 +42,7 @@
 
             android:hint="@string/name_hint"
             android:inputType="text"
-            android:text="@{viewModel.purchase.name}"
+            android:text="@{viewModel.purchase.value.name}"
             android:importantForAutofill="no" />
 
         <EditText
@@ -65,7 +65,7 @@
             android:editable="false"
 
             android:inputType="datetime"
-            android:text="@{viewModel.purchase.date}" />
+            android:text="@{viewModel.purchase.value.date}" />
 
         <LinearLayout
             android:layout_width="match_parent"

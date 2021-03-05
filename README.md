@@ -12,8 +12,9 @@ Used Android libraries:
 -----------------------
   * AppCompat
   * Android KTX
-  * Data Binding
-  * Lifecycles/LiveData
+  * Data Binding/View Binding
+  * Lifecycle/LiveData
+  * Pagging
   * Navigation
   * Room
   * ViewModel
@@ -22,5 +23,6 @@ Used Android libraries:
 Used third party libraries:
 --------------------------
   * Glide
+  * Hilt 
   * Kotlin Coroutines
   

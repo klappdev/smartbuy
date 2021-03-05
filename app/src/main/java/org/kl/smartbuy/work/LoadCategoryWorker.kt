@@ -21,43 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.viewmodel
+package org.kl.smartbuy.work
 
-import androidx.lifecycle.*
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import android.content.Context
+import android.util.Log
+import androidx.work.CoroutineWorker
+import androidx.work.WorkerParameters
+import kotlinx.coroutines.coroutineScope
 
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.google.gson.stream.JsonReader
 
-import org.kl.smartbuy.db.repo.PurchaseRepository
-import org.kl.smartbuy.model.Purchase
+import org.kl.smartbuy.db.PurchaseDatabase
+import org.kl.smartbuy.model.Category
 
-@HiltViewModel
-class PurchaseDetailViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    private val purchaseRepository: PurchaseRepository,
-) : ViewModel() {
-    private val purchaseId: Int = savedStateHandle.get<Int>("purchaseId")!!
+class LoadCategoryWorker(context: Context,
+                         workerParams: WorkerParameters
+) : CoroutineWorker(context, workerParams) {
 
-    private var _purchase = MutableStateFlow(Purchase())
-    public val purchase: StateFlow<Purchase> = _purchase.asStateFlow()
+    override suspend fun doWork(): Result = coroutineScope {
+        try {
+            applicationContext.assets.open("categories.json").use { inputStream ->
+                JsonReader(inputStream.reader()).use { jsonReader ->
+                    val categoryType = object : TypeToken<List<Category>>(){}.type
+                    val categories: List<Category> = Gson().fromJson(jsonReader, categoryType)
 
-    init {
-        resetPurchase()
-    }
+                    val database = PurchaseDatabase.getInstance(applicationContext)
+                    database.categoryDao().insertAll(categories)
 
-    fun resetPurchase() {
-        viewModelScope.launch {
-            purchaseRepository.getPurchase(purchaseId).collect { purchase ->
-                _purchase.value = purchase
+                    Result.success()
+                }
             }
-        }
-    }
-
-    fun editPurchase(purchase: Purchase) {
-        viewModelScope.launch {
-            purchaseRepository.updatePurchase(purchase)
+        } catch (e: Exception) {
+            Log.e("PDBW-TAG", "Error preload data to db from json", e)
+            Result.failure()
         }
     }
 }

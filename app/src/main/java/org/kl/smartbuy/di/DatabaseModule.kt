@@ -21,43 +21,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.viewmodel
+package org.kl.smartbuy.di
 
-import androidx.lifecycle.*
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import android.content.Context
+import javax.inject.Singleton
 
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 
-import org.kl.smartbuy.db.repo.PurchaseRepository
-import org.kl.smartbuy.model.Purchase
+import org.kl.smartbuy.db.PurchaseDatabase
+import org.kl.smartbuy.db.dao.CategoryDao
+import org.kl.smartbuy.db.dao.ProductDao
+import org.kl.smartbuy.db.dao.PurchaseDao
 
-@HiltViewModel
-class PurchaseDetailViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    private val purchaseRepository: PurchaseRepository,
-) : ViewModel() {
-    private val purchaseId: Int = savedStateHandle.get<Int>("purchaseId")!!
+@Module
+@InstallIn(SingletonComponent::class)
+class DatabaseModule {
 
-    private var _purchase = MutableStateFlow(Purchase())
-    public val purchase: StateFlow<Purchase> = _purchase.asStateFlow()
-
-    init {
-        resetPurchase()
+    @Provides
+    @Singleton
+    fun providePurchaseDB(@ApplicationContext context: Context): PurchaseDatabase {
+        return PurchaseDatabase.getInstance(context)
     }
 
-    fun resetPurchase() {
-        viewModelScope.launch {
-            purchaseRepository.getPurchase(purchaseId).collect { purchase ->
-                _purchase.value = purchase
-            }
-        }
+    @Provides
+    fun provideCategoryDao(purchaseDatabase: PurchaseDatabase): CategoryDao {
+        return purchaseDatabase.categoryDao()
     }
 
-    fun editPurchase(purchase: Purchase) {
-        viewModelScope.launch {
-            purchaseRepository.updatePurchase(purchase)
-        }
+    @Provides
+    fun provideProductDao(purchaseDatabase: PurchaseDatabase): ProductDao {
+        return purchaseDatabase.productDao()
+    }
+
+    @Provides
+    fun providePurchaseDao(purchaseDatabase: PurchaseDatabase): PurchaseDao {
+        return purchaseDatabase.purchaseDao()
     }
 }

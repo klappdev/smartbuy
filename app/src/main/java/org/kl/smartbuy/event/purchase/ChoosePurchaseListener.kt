@@ -21,43 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.viewmodel
+package org.kl.smartbuy.event.purchase
 
-import androidx.lifecycle.*
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import android.view.View
+import org.kl.smartbuy.view.adapter.PurchaseAdapter
+import org.kl.smartbuy.view.holder.PurchaseViewHolder
 
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+class ChoosePurchaseListener(
+    private val purchaseViewHolder: PurchaseViewHolder
+) : View.OnLongClickListener {
 
-import org.kl.smartbuy.db.repo.PurchaseRepository
-import org.kl.smartbuy.model.Purchase
+    override fun onLongClick(view: View?): Boolean {
+        val purchaseAdapter = purchaseViewHolder.bindingAdapter as PurchaseAdapter
 
-@HiltViewModel
-class PurchaseDetailViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    private val purchaseRepository: PurchaseRepository,
-) : ViewModel() {
-    private val purchaseId: Int = savedStateHandle.get<Int>("purchaseId")!!
+        purchaseAdapter.position = purchaseViewHolder.absoluteAdapterPosition
+        purchaseAdapter.notifyDataSetChanged()
 
-    private var _purchase = MutableStateFlow(Purchase())
-    public val purchase: StateFlow<Purchase> = _purchase.asStateFlow()
-
-    init {
-        resetPurchase()
-    }
-
-    fun resetPurchase() {
-        viewModelScope.launch {
-            purchaseRepository.getPurchase(purchaseId).collect { purchase ->
-                _purchase.value = purchase
-            }
-        }
-    }
-
-    fun editPurchase(purchase: Purchase) {
-        viewModelScope.launch {
-            purchaseRepository.updatePurchase(purchase)
-        }
+        purchaseAdapter.notifyAction?.invoke(true)
+        return true
     }
 }
