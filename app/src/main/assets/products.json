@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "idCategory" : 1,
+    "name" : "Crucian carp",
+    "description" : "The crucian carp is a medium-sized member of the common carp family Cyprinidae. It occurs widely in northern European regions",
+    "price" : 50.0,
+    "range" : "1..9",
+    "measure" : "kg",
+    "iconUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1b/CarassiusCarassius8.JPG"
+  },
+  {
+    "id": 2,
+    "idCategory" : 1,
+    "name" : "Silver carp",
+    "description" : "The silver carp (Hypophthalmichthys molitrix) is a species of freshwater cyprinid fish",
+    "price" : 100.0,
+    "range" : "1..10",
+    "measure" : "kg",
+    "iconUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Hypophthalmichthys_molitrix_Hungary.jpg"
+  },
+  {
+    "id": 3,
+    "idCategory" : 2,
+    "name" : "Banana",
+    "description" : "Bananas are produced by several kinds of large herbaceous flowering plants ",
+    "price" : 25.0,
+    "range" : "1..10",
+    "measure" : "kg",
+    "iconUrl": "https://upload.wikimedia.org/wikipedia/commons/4/44/Bananas_white_background_DS.jpg"
+  },
+  {
+    "id": 4,
+    "idCategory" : 2,
+    "name" : "Orange",
+    "description" : "The orange is the fruit of various citrus species in the family Rutaceae",
+    "price" : 40.0,
+    "range" : "1..10",
+    "measure" : "kg",
+    "iconUrl": "https://upload.wikimedia.org/wikipedia/commons/4/49/Mandarin_Oranges_%28Citrus_Reticulata%29.jpg"
+  },
+  {
+    "id": 5,
+    "idCategory" : 3,
+    "name" : "Potato",
+    "description" : "The potato is a root vegetable native to the Americas, a starchy tuber of the plant Solanum tuberosum",
+    "price" : 60.0,
+    "range" : "1..10",
+    "measure" : "kg",
+    "iconUrl": "https://commons.wikimedia.org/wiki/File:Russet_potato_cultivar_with_sprouts.jpg"
+  },
+  {
+    "id": 6,
+    "idCategory" : 3,
+    "name" : "Tomato",
+    "description" : "The tomato is the edible berry of the plant Solanum lycopersicum,[1][2] commonly known as a tomato plant.",
+    "price" : 25.0,
+    "range" : "1..10",
+    "measure" : "kg",
+    "iconUrl": "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"
+  }
+]

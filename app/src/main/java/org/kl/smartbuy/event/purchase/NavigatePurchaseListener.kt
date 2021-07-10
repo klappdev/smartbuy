@@ -26,17 +26,17 @@ package org.kl.smartbuy.event.purchase
 import androidx.navigation.Navigation
 
 import org.kl.smartbuy.R
-import org.kl.smartbuy.view.fragment.PurchaseFragment
-import org.kl.smartbuy.view.fragment.TabPagerFragmentDirections
+import org.kl.smartbuy.view.purchase.PurchaseFragment
+import org.kl.smartbuy.view.common.TabPagerFragmentDirections
 
 class NavigatePurchaseListener(fragment: PurchaseFragment) {
     private val activity = fragment.parentActivity
     private val adapter = fragment.purchaseAdapter
 
     fun navigateEditPurchase(): Boolean {
-        val purchaseId = adapter.getCurrentItemId().toInt()
+        val purchaseId = adapter.getCurrentItemId()
 
-        if (purchaseId != -1) {
+        if (purchaseId != -1L) {
             val direction = TabPagerFragmentDirections
                 .actionTabPagerFragmentToEditPurchaseActivity(purchaseId)
 

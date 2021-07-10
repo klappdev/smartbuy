@@ -33,7 +33,7 @@ import org.kl.smartbuy.model.Category
 @Singleton
 class CategoryRepository @Inject constructor(private val categoryDao: CategoryDao) {
 
-    fun getCategory(id: Int): LiveData<Category> = categoryDao.getById(id)
+    fun getCategory(id: Long): LiveData<Category> = categoryDao.getById(id)
 
     fun getCategories(): LiveData<List<Category>> = categoryDao.getAll()
 

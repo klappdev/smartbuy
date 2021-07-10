@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.view.fragment
+package org.kl.smartbuy.view.category
 
 import android.os.Bundle
 import android.view.View
@@ -29,34 +29,35 @@ import android.widget.TextView
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 
 import org.kl.smartbuy.R
 import org.kl.smartbuy.model.Category
-import org.kl.smartbuy.view.adapter.CategoryAdapter
-import org.kl.smartbuy.view.activity.MainActivity
+import org.kl.smartbuy.view.MainActivity
 import org.kl.smartbuy.viewmodel.CategoryListViewModel
 import org.kl.smartbuy.databinding.FragmentCategoryBinding
+import org.kl.smartbuy.event.category.NavigateCategoryListener
 
 @AndroidEntryPoint
 class CategoryFragment : Fragment(R.layout.fragment_category) {
     private lateinit var emptyTextView: TextView
     private lateinit var categoryRecyclerView: RecyclerView
 
-    private lateinit var categoryAdapter: CategoryAdapter
+    public lateinit var categoryAdapter: CategoryAdapter
     public lateinit var parentActivity: MainActivity
 
     private val categoriesViewModel: CategoryListViewModel by viewModels()
     private var binding: FragmentCategoryBinding? = null
+
+    private lateinit var navigateCategoryListener: NavigateCategoryListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
         initView(view)
-        subscribeUi(categoryAdapter)
+        subscribeUi()
     }
 
     override fun onDestroyView() {
@@ -72,17 +73,23 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
         this.categoryRecyclerView = innerBinding.categoryRecycleView
 
         categoryAdapter = CategoryAdapter()
-        categoryRecyclerView.adapter = categoryAdapter
 
         parentActivity = (activity as MainActivity)
-        parentActivity.initCategoryListeners(this)
+        initListeners()
+
+        categoryAdapter.navigateAction = navigateCategoryListener::navigateShowCategory
+        categoryRecyclerView.adapter = categoryAdapter
     }
 
-    private fun subscribeUi(adapter: CategoryAdapter) {
+    private fun subscribeUi() {
         categoriesViewModel.categories.observe(viewLifecycleOwner) { list: List<Category> ->
             switchVisibility(list.isNotEmpty())
-            adapter.submitList(list)
+            categoryAdapter.submitList(list)
         }
+    }
+
+    private fun initListeners() {
+        this.navigateCategoryListener = NavigateCategoryListener(this)
     }
 
     private fun switchVisibility(flag: Boolean) {

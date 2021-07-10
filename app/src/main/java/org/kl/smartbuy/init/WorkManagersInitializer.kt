@@ -1,7 +1,7 @@
 /*
  * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
  * SPDX-License-Identifier: MIT
- * Copyright (c) 2020 - 2021 https://github.com/klappdev
+ * Copyright (c) 2019 - 2021 https://github.com/klappdev
  *
  * Permission is hereby  granted, free of charge, to any  person obtaining a copy
  * of this software and associated  documentation files (the "Software"), to deal
@@ -21,19 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.event.purchase
+package org.kl.smartbuy.init
 
-import org.kl.smartbuy.view.purchase.PurchaseFragment
+import android.content.Context
+import androidx.startup.Initializer
+import androidx.work.Configuration
+import androidx.work.WorkManager
 
-class ResetPurchaseListener(private val purchaseFragment: PurchaseFragment) {
+class WorkManagersInitializer : Initializer<WorkManager> {
 
-    operator fun invoke(): Boolean {
-        with(purchaseFragment) {
-            purchaseAdapter.position = -1
-            purchaseAdapter.notifyDataSetChanged()
-            notifyMenuItemSelected(false)
-        }
+    override fun create(context: Context): WorkManager {
+        val configuration = Configuration.Builder().build()
+        WorkManager.initialize(context, configuration)
 
-        return true
+        return WorkManager.getInstance(context)
     }
+
+    override fun dependencies(): List<Class<out Initializer<*>>> = emptyList()
 }

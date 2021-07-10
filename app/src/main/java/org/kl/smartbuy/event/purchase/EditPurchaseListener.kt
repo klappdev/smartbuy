@@ -25,7 +25,7 @@ package org.kl.smartbuy.event.purchase
 
 import android.view.View
 import org.kl.smartbuy.model.Purchase
-import org.kl.smartbuy.view.activity.EditPurchaseActivity
+import org.kl.smartbuy.view.purchase.EditPurchaseActivity
 import org.kl.smartbuy.util.toast
 
 class EditPurchaseListener(private val activity: EditPurchaseActivity) : View.OnClickListener {

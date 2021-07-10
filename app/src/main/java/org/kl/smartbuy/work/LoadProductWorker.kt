@@ -24,53 +24,68 @@
 package org.kl.smartbuy.work
 
 import android.content.Context
-import androidx.work.Data
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import kotlinx.coroutines.coroutineScope
 
-import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
 import timber.log.Timber
 
 import org.kl.smartbuy.db.PurchaseDatabase
-import org.kl.smartbuy.db.dao.CategoryDao
-import org.kl.smartbuy.model.Category
+import org.kl.smartbuy.db.convert.ProductDeserializer
+import org.kl.smartbuy.model.Product
 
-class LoadCategoryWorker(
+class LoadProductWorker(
     context: Context, workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result = coroutineScope {
-        val database = PurchaseDatabase.getInstance(applicationContext)
-        val categoryDao = database.categoryDao()
+        val idLessons: LongArray? = inputData.getLongArray("id_lessons")
 
         try {
-            loadCategories(categoryDao)
+            if (idLessons != null && idLessons.isNotEmpty()) {
+                val products = loadProducts()
+                storeProducts(idLessons, products)
 
-            val idLessons = categoryDao.getAllIds()
-
-            val outputData = Data.Builder()
-                    .putLongArray("id_lessons", idLessons.toLongArray())
-                    .build()
-
-            Result.success(outputData)
+                Result.success()
+            } else {
+                Timber.e("Error get input id lessons")
+                Result.failure()
+            }
         } catch (e: Exception) {
-            Timber.e(e, "Error preload categories to db from json")
+            Timber.e(e, "Error preload products to db from json")
             Result.failure()
         }
     }
 
     @Throws(Exception::class)
-    private suspend fun loadCategories(categoryDao: CategoryDao) {
-        applicationContext.assets.open("categories.json").use { inputStream ->
-            JsonReader(inputStream.reader()).use { jsonReader ->
-                val categoryType = object : TypeToken<List<Category>>(){}.type
-                val categories: List<Category> = Gson().fromJson(jsonReader, categoryType)
+    private fun loadProducts(): List<Product> {
+        val products = mutableListOf<Product>()
 
-                categoryDao.insertAll(categories)
+        applicationContext.assets.open("products.json").use { inputStream ->
+            JsonReader(inputStream.reader()).use { jsonReader ->
+                val productType = object : TypeToken<List<Product>>(){}.type
+                val gson = GsonBuilder()
+                        .registerTypeAdapter(Product::class.java, ProductDeserializer())
+                        .create()
+                products.addAll(gson.fromJson(jsonReader, productType))
             }
         }
+
+        return products
+    }
+
+    private suspend fun storeProducts(idLessons: LongArray, products: List<Product>) {
+        val listProducts = mutableListOf<Product>()
+
+        for (product in products) {
+            val newIdCategory = idLessons[(product.idCategory - 1).toInt()]
+            listProducts += product.copy(idCategory = newIdCategory)
+        }
+
+        val database = PurchaseDatabase.getInstance(applicationContext)
+        database.productDao().insertAll(listProducts)
     }
 }

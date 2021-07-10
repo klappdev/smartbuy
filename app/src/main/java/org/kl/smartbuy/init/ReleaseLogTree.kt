@@ -1,7 +1,7 @@
 /*
  * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
  * SPDX-License-Identifier: MIT
- * Copyright (c) 2020 - 2021 https://github.com/klappdev
+ * Copyright (c) 2019 - 2021 https://github.com/klappdev
  *
  * Permission is hereby  granted, free of charge, to any  person obtaining a copy
  * of this software and associated  documentation files (the "Software"), to deal
@@ -21,19 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.event.purchase
+package org.kl.smartbuy.init
 
-import org.kl.smartbuy.view.purchase.PurchaseFragment
+import android.annotation.SuppressLint
+import android.util.Log
+import timber.log.Timber
 
-class ResetPurchaseListener(private val purchaseFragment: PurchaseFragment) {
+class ReleaseLogTree: Timber.Tree() {
 
-    operator fun invoke(): Boolean {
-        with(purchaseFragment) {
-            purchaseAdapter.position = -1
-            purchaseAdapter.notifyDataSetChanged()
-            notifyMenuItemSelected(false)
+    override fun isLoggable(tag: String?, priority: Int): Boolean {
+        if (priority == Log.VERBOSE || priority == Log.DEBUG || priority == Log.INFO) {
+            return false
         }
 
         return true
+    }
+
+    @SuppressLint("LogNotTimber")
+    override fun log(priority: Int, tag: String?, message: String, throwable: Throwable?) {
+        when (priority) {
+            Log.ASSERT -> Log.wtf(tag, message)
+            Log.ERROR -> Log.e(tag, message)
+            else -> Log.println(priority, tag, message)
+        }
     }
 }

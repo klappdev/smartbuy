@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="center_vertical"
-        tools:context=".view.activity.EditPurchaseActivity">
+        tools:context=".view.purchase.EditPurchaseActivity">
 
         <ImageView
             android:id="@+id/item_purchase_image"

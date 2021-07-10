@@ -23,19 +23,25 @@
  */
 package org.kl.smartbuy.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
+import androidx.room.*
 import org.kl.smartbuy.db.convert.RangeConverter
 
-@Entity(tableName = "product")
+@Entity(
+    tableName = "product",
+    foreignKeys = [
+        ForeignKey(
+             entity = Category::class,
+             parentColumns = ["id_category"],
+             childColumns = ["id_category_product"]
+        )
+])
 data class Product(
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id_product")
     val id: Long,
 
-    @ColumnInfo(name = "id_category")
-    val idCategory: Int,
+    @ColumnInfo(name = "id_category_product")
+    val idCategory: Long,
 
     val name: String,
     val description: String,

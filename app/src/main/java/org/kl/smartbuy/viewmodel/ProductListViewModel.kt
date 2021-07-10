@@ -21,21 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.view.holder
+package org.kl.smartbuy.viewmodel
 
-import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.*
 
-import org.kl.smartbuy.databinding.CategoryItemBinding
-import org.kl.smartbuy.model.Category
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class CategoryViewHolder(
-    private val binding: CategoryItemBinding
-) : RecyclerView.ViewHolder(binding.root) {
+import org.kl.smartbuy.db.repo.ProductRepository
+import org.kl.smartbuy.model.CategoryProducts
+import org.kl.smartbuy.model.Product
 
-    fun bind(item: Category) {
-        with(binding) {
-            category = item
-            executePendingBindings()
-        }
-    }
+@HiltViewModel
+class ProductListViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    productRepository: ProductRepository
+) : ViewModel() {
+    private val productId: Long = savedStateHandle.get<Long>("productId")!!
+
+    val products: LiveData<List<Product>> = productRepository.getCategoryProducts(productId)
+            .map(CategoryProducts::products)
 }

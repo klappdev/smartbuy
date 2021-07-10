@@ -21,31 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.view.holder
+package org.kl.smartbuy.view.common
 
-import android.util.Log
-import androidx.recyclerview.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.adapter.FragmentStateAdapter
 
-import org.kl.smartbuy.databinding.PurchaseItemBinding
-import org.kl.smartbuy.model.Purchase
-import org.kl.smartbuy.R
+import org.kl.smartbuy.view.category.CategoryFragment
+import org.kl.smartbuy.view.purchase.PurchaseFragment
 
-class PurchaseViewHolder(
-    val binding: PurchaseItemBinding
-) : RecyclerView.ViewHolder(binding.root) {
+const val CATEGORY_TAB = 0
+const val PURCHASE_TAB = 1
 
-    fun bind(item: Purchase, currentId: Long) {
-        if (item.id == currentId) {
-            binding.itemPurchaseImage.setImageResource(R.drawable.purchase_selected_icon)
-            Log.i("CPL-TAG", "Purchase selected")
-        } else {
-            binding.itemPurchaseImage.setImageResource(R.drawable.purchase_icon)
-            Log.i("CPL-TAG", "Purchase not selected")
-        }
-		
-        with(binding) {
-            purchase = item
-            executePendingBindings()
+class TabPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {
+            CATEGORY_TAB -> CategoryFragment()
+            PURCHASE_TAB -> PurchaseFragment()
+            else -> error("Unknown tab order")
         }
     }
+
+    override fun getItemCount() = 2
 }

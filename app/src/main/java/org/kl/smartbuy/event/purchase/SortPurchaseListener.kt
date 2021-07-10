@@ -23,7 +23,7 @@
  */
 package org.kl.smartbuy.event.purchase
 
-import org.kl.smartbuy.view.fragment.PurchaseFragment
+import org.kl.smartbuy.view.purchase.PurchaseFragment
 
 class SortPurchaseListener(fragment: PurchaseFragment) {
     private val purchaseAdapter = fragment.purchaseAdapter

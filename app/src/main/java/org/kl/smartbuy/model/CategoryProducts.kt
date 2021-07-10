@@ -21,19 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.event.purchase
+package org.kl.smartbuy.model
 
-import org.kl.smartbuy.view.purchase.PurchaseFragment
+import androidx.room.Embedded
+import androidx.room.Relation
 
-class ResetPurchaseListener(private val purchaseFragment: PurchaseFragment) {
+data class CategoryProducts(
+    @Embedded
+    val category: Category,
 
-    operator fun invoke(): Boolean {
-        with(purchaseFragment) {
-            purchaseAdapter.position = -1
-            purchaseAdapter.notifyDataSetChanged()
-            notifyMenuItemSelected(false)
-        }
-
-        return true
-    }
-}
+    @Relation(
+        parentColumn = "id_category",
+        entity = Product::class,
+        entityColumn = "id_category_product"
+    )
+    val products: List<Product>
+)

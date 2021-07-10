@@ -25,14 +25,16 @@ package org.kl.smartbuy.db.convert
 
 import androidx.room.TypeConverter
 
-class RangeConverter {
+object RangeConverter {
 
     @TypeConverter
+    @JvmStatic
     fun fromRange(range: IntRange): String {
         return range.toString()
     }
 
     @TypeConverter
+    @JvmStatic
     fun toRange(data: String): IntRange {
         val parts: List<String> = data.split("..")
 

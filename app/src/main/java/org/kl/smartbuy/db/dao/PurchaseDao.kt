@@ -44,8 +44,8 @@ interface PurchaseDao {
     @Delete
     suspend fun delete(purchase: Purchase)
 
-    @Query("SELECT * FROM purchase WHERE id = :id")
-    fun getById(id: Int): Flow<Purchase>
+    @Query("SELECT * FROM purchase WHERE id_purchase = :id")
+    fun getById(id: Long): Flow<Purchase>
 
     @Query("SELECT * FROM purchase ORDER BY name ASC")
     fun getAll(): PagingSource<Int, Purchase>

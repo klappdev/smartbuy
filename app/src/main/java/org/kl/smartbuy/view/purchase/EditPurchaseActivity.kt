@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.view.activity
+package org.kl.smartbuy.view.purchase
 
 import android.os.Bundle
 import android.widget.Button

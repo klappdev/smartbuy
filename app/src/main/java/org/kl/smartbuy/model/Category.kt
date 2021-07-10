@@ -30,6 +30,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "category")
 data class Category(
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id_category")
     val id: Long,
     val name: String,
     val description: String,

@@ -21,19 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.event.purchase
+package org.kl.smartbuy.event.category
 
-import org.kl.smartbuy.view.purchase.PurchaseFragment
+import androidx.navigation.Navigation
 
-class ResetPurchaseListener(private val purchaseFragment: PurchaseFragment) {
+import org.kl.smartbuy.R
+import org.kl.smartbuy.view.category.CategoryFragment
+import org.kl.smartbuy.view.common.TabPagerFragmentDirections
 
-    operator fun invoke(): Boolean {
-        with(purchaseFragment) {
-            purchaseAdapter.position = -1
-            purchaseAdapter.notifyDataSetChanged()
-            notifyMenuItemSelected(false)
+class NavigateCategoryListener(fragment: CategoryFragment) {
+    private val activity = fragment.parentActivity
+    private val adapter = fragment.categoryAdapter
+
+    fun navigateShowCategory() {
+        val categoryId = adapter.getCurrentItemId()
+
+        if (categoryId != -1L) {
+            val direction = TabPagerFragmentDirections
+                .actionTabPagerFragmentToShowCategoryActivity(categoryId)
+
+            val navigationController = Navigation.findNavController(activity, R.id.navigation_host_fragment)
+            navigationController.navigate(direction)
+
         }
-
-        return true
     }
 }

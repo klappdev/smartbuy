@@ -23,12 +23,14 @@
  */
 package org.kl.smartbuy.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "purchase")
 data class Purchase(
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id_purchase")
     val id: Long,
     val name: String,
     val date: String

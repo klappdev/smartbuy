@@ -37,7 +37,7 @@ import org.kl.smartbuy.model.Purchase
 @Singleton
 class PurchaseRepository @Inject constructor(private val purchaseDao: PurchaseDao) {
 
-    fun getPurchase(id: Int): Flow<Purchase> = purchaseDao.getById(id)
+    fun getPurchase(id: Long): Flow<Purchase> = purchaseDao.getById(id)
 
     fun getPurchases(): Flow<PagingData<Purchase>> {
         return Pager(

@@ -21,9 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.view.fragment
+package org.kl.smartbuy.view.purchase
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 
@@ -33,14 +36,12 @@ import androidx.paging.PagingData
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 
-import kotlinx.coroutines.Job
-
 import org.kl.smartbuy.R
 import org.kl.smartbuy.model.Purchase
-import org.kl.smartbuy.view.activity.MainActivity
-import org.kl.smartbuy.view.adapter.PurchaseAdapter
+import org.kl.smartbuy.view.MainActivity
 import org.kl.smartbuy.viewmodel.PurchaseListViewModel
 import org.kl.smartbuy.databinding.FragmentPurchaseBinding
+import org.kl.smartbuy.event.purchase.*
 
 @AndroidEntryPoint
 class PurchaseFragment : Fragment(R.layout.fragment_purchase) {
@@ -52,7 +53,14 @@ class PurchaseFragment : Fragment(R.layout.fragment_purchase) {
 
     public val purchasesViewModel: PurchaseListViewModel by viewModels()
     private var binding: FragmentPurchaseBinding? = null
-    private var purchasesJob: Job? = null
+
+    public lateinit var sortPurchaseListener: SortPurchaseListener
+    public lateinit var deletePurchaseListener: DeletePurchaseListener
+    public lateinit var resetPurchaseListener: ResetPurchaseListener
+    private lateinit var navigatePurchaseListener: NavigatePurchaseListener
+
+    private var searchMenuItem: MenuItem? = null
+    private var menuItemSelected: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,6 +77,31 @@ class PurchaseFragment : Fragment(R.layout.fragment_purchase) {
         super.onDestroyView()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_main, menu)
+        searchMenuItem = menu.findItem(R.id.action_search)
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        android.R.id.home -> resetPurchaseListener()
+        R.id.action_edit -> navigatePurchaseListener.navigateEditPurchase()
+        R.id.action_sort -> sortPurchaseListener()
+        R.id.action_delete -> deletePurchaseListener()
+        else -> super.onOptionsItemSelected(item)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        parentActivity.supportActionBar?.setDisplayHomeAsUpEnabled(menuItemSelected)
+        parentActivity.supportActionBar?.setDisplayShowHomeEnabled(menuItemSelected)
+
+        menu.findItem(R.id.action_search)?.isVisible = !menuItemSelected
+        menu.findItem(R.id.action_sort)?.isVisible = !menuItemSelected
+        menu.findItem(R.id.action_edit)?.isVisible = menuItemSelected
+        menu.findItem(R.id.action_delete)?.isVisible = menuItemSelected
+    }
+
     private fun initView(rootView: View) {
         val innerBinding = FragmentPurchaseBinding.bind(rootView)
         this.binding = innerBinding
@@ -79,19 +112,33 @@ class PurchaseFragment : Fragment(R.layout.fragment_purchase) {
         purchaseAdapter = PurchaseAdapter()
 
         parentActivity = (activity as MainActivity)
-        parentActivity.initPurchaseListeners(this)
+        initListeners()
 
-        purchaseAdapter.notifyAction = parentActivity::notifyMenuItemSelected
+        purchaseAdapter.notifyAction = ::notifyMenuItemSelected
         purchaseRecycleView.adapter = purchaseAdapter
     }
 
     private fun subscribeUi() {
-        purchasesJob?.cancel()
-
         purchasesViewModel.getPurchases { data ->
             switchVisibility(data != PagingData.empty<Purchase>())
             purchaseAdapter.submitData(data)
         }
+    }
+
+    private fun initListeners() {
+        this.sortPurchaseListener = SortPurchaseListener(this)
+        this.navigatePurchaseListener = NavigatePurchaseListener(this)
+        this.deletePurchaseListener = DeletePurchaseListener(this)
+        this.resetPurchaseListener = ResetPurchaseListener(this)
+
+        searchMenuItem?.setOnActionExpandListener(SearchPurchaseListener(this))
+    }
+
+    fun notifyMenuItemSelected(selected: Boolean): Boolean {
+        this.menuItemSelected = selected
+        parentActivity.invalidateOptionsMenu()
+
+        return true
     }
 
     private fun switchVisibility(flag: Boolean) {
@@ -108,7 +155,7 @@ class PurchaseFragment : Fragment(R.layout.fragment_purchase) {
     private fun initPurchases() {
         val listPurchases = mutableListOf<Purchase>()
 
-        for (i in 0L..50L) {
+        for (i in 0L..20L) {
             listPurchases += Purchase(i, "$i purchase",  "$i.$i.2021")
         }
 

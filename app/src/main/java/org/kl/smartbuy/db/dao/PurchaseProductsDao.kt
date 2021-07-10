@@ -21,19 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.event.purchase
+package org.kl.smartbuy.db.dao
 
-import org.kl.smartbuy.view.purchase.PurchaseFragment
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Query
+import androidx.room.Transaction
 
-class ResetPurchaseListener(private val purchaseFragment: PurchaseFragment) {
+import org.kl.smartbuy.model.PurchaseProducts
 
-    operator fun invoke(): Boolean {
-        with(purchaseFragment) {
-            purchaseAdapter.position = -1
-            purchaseAdapter.notifyDataSetChanged()
-            notifyMenuItemSelected(false)
-        }
+@Dao
+interface PurchaseProductsDao {
 
-        return true
-    }
+    @Transaction
+    @Query("SELECT * FROM purchase WHERE id_purchase = :id")
+    fun getById(id: Long): LiveData<PurchaseProducts>
+
+    @Transaction
+    @Query("SELECT * FROM purchase")
+    fun getAll(): LiveData<List<PurchaseProducts>>
 }

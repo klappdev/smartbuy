@@ -21,19 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.event.purchase
+package org.kl.smartbuy.view.category
 
-import org.kl.smartbuy.view.purchase.PurchaseFragment
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 
-class ResetPurchaseListener(private val purchaseFragment: PurchaseFragment) {
+import org.kl.smartbuy.model.Category
+import org.kl.smartbuy.databinding.CategoryItemBinding
+import org.kl.smartbuy.event.diff.CategoryDifferenceCallback
+import org.kl.smartbuy.event.category.ChooseCategoryListener
 
-    operator fun invoke(): Boolean {
-        with(purchaseFragment) {
-            purchaseAdapter.position = -1
-            purchaseAdapter.notifyDataSetChanged()
-            notifyMenuItemSelected(false)
+class CategoryAdapter : ListAdapter<Category, CategoryViewHolder>(CategoryDifferenceCallback()) {
+    var navigateAction: () -> Unit = {}
+    var position: Int = -1
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = CategoryItemBinding.inflate(inflater, parent, false)
+
+        return CategoryViewHolder(binding).apply {
+            binding.categoryCardView.setOnClickListener(ChooseCategoryListener(this))
         }
-
-        return true
     }
+
+    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+        val category = getItem(position)
+        holder.bind(category)
+    }
+
+    fun getCurrentItem(): Category = getItem(position)
+    fun getCurrentItemId(): Long = getItem(position).id
 }

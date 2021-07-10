@@ -30,12 +30,18 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 
 import org.kl.smartbuy.work.LoadCategoryWorker
+import org.kl.smartbuy.work.LoadProductWorker
 
 class LoadInitDBCallback(private val context: Context) : RoomDatabase.Callback() {
     override fun onCreate(db: SupportSQLiteDatabase) {
         super.onCreate(db)
 
-        val request = OneTimeWorkRequestBuilder<LoadCategoryWorker>().build()
-        WorkManager.getInstance(context).enqueue(request)
+        val categoryRequest = OneTimeWorkRequestBuilder<LoadCategoryWorker>().build()
+        val productRequest = OneTimeWorkRequestBuilder<LoadProductWorker>().build()
+
+        WorkManager.getInstance(context)
+            .beginWith(categoryRequest)
+            .then(productRequest)
+            .enqueue()
     }
 }
