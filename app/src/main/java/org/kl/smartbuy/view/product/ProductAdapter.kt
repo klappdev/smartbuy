@@ -21,38 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.view.adapter
+package org.kl.smartbuy.view.product
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.ListAdapter
 
-import org.kl.smartbuy.model.Purchase
-import org.kl.smartbuy.view.holder.PurchaseViewHolder
-import org.kl.smartbuy.databinding.PurchaseItemBinding
-import org.kl.smartbuy.event.diff.PurchaseDifferenceCallback
-import org.kl.smartbuy.event.purchase.ChoosePurchaseListener
+import org.kl.smartbuy.databinding.ProductItemBinding
+import org.kl.smartbuy.event.diff.ProductDifferenceCallback
+import org.kl.smartbuy.model.Product
 
-class PurchaseAdapter : PagingDataAdapter<Purchase, PurchaseViewHolder>(PurchaseDifferenceCallback()) {
-    var notifyAction: ((Boolean) -> Boolean)? = null
-    var position: Int = -1
+class ProductAdapter : ListAdapter<Product, ProductViewHolder>(ProductDifferenceCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PurchaseViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = PurchaseItemBinding.inflate(inflater, parent, false)
+        val binding = ProductItemBinding.inflate(inflater, parent, false)
 
-        return PurchaseViewHolder(binding)
+        return ProductViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: PurchaseViewHolder, position: Int) {
-        val purchase = getItem(position)
-
-        if (purchase != null) {
-            holder.bind(purchase, getCurrentItemId())
-            holder.binding.root.setOnLongClickListener(ChoosePurchaseListener(holder))
-        }
+    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
+        val product = getItem(position)
+        holder.bind(product)
     }
-
-    fun getCurrentItem() = getItem(position)
-    fun getCurrentItemId() = if (position != -1 && position < itemCount) getItemId(position) else -1
 }

@@ -21,19 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.event.purchase
+package org.kl.smartbuy.db.repo
 
-import org.kl.smartbuy.view.purchase.PurchaseFragment
+import androidx.lifecycle.LiveData
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ResetPurchaseListener(private val purchaseFragment: PurchaseFragment) {
+import org.kl.smartbuy.db.dao.CategoryProductsDao
+import org.kl.smartbuy.model.CategoryProducts
 
-    operator fun invoke(): Boolean {
-        with(purchaseFragment) {
-            purchaseAdapter.position = -1
-            purchaseAdapter.notifyDataSetChanged()
-            notifyMenuItemSelected(false)
-        }
+@Singleton
+class ProductRepository @Inject constructor(private val categoryProductsDao: CategoryProductsDao) {
 
-        return true
-    }
+    fun getCategoryProducts(id: Long): LiveData<CategoryProducts> = categoryProductsDao.getById(id)
+
+    fun getCategoriesProducts(): LiveData<List<CategoryProducts>> = categoryProductsDao.getAll()
 }

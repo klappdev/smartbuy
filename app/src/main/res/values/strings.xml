@@ -4,11 +4,13 @@
     <string name="category_tab">Category</string>
     <string name="purchase_tab">Purchase</string>
 
+    <string name="show_category_title">Show Category</string>
     <string name="edit_purchase_title">Edit Purchase</string>
     <string name="view_purchase_title">View Purchase</string>
 
-    <string name="empty_category">List categories are empty</string>
-    <string name="empty_purchase">List purchases are empty</string>
+    <string name="empty_products">List products are empty</string>
+    <string name="empty_categories">List categories are empty</string>
+    <string name="empty_purchases">List purchases are empty</string>
 
     <string name="category_name">Simple category</string>
     <string name="purchase_name">Simple purchase</string>

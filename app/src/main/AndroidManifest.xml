@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Smartbuy"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".view.activity.MainActivity"
+            android:name=".view.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Smartbuy.NoActionBar">
             <intent-filter>
@@ -24,8 +24,35 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.EditPurchaseActivity">
+        <activity
+            android:name=".view.category.ShowCategoryActivity"
+            android:label="@string/show_category_title">
         </activity>
+        <activity
+            android:name=".view.purchase.EditPurchaseActivity"
+            android:label="@string/edit_purchase_title">
+        </activity>
+
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:authorities="${applicationId}.workmanager-init"
+            android:exported="false"
+            tools:node="remove" />
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+
+            <meta-data
+                android:name="org.kl.smartbuy.init.WorkManagersInitializer"
+                android:value="androidx.startup" />
+
+            <meta-data
+                android:name="org.kl.smartbuy.init.TimberInitializer"
+                android:value="androidx.startup" />
+        </provider>
     </application>
 
 </manifest>

@@ -21,19 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.event.purchase
+package org.kl.smartbuy.view.purchase
 
-import org.kl.smartbuy.view.purchase.PurchaseFragment
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 
-class ResetPurchaseListener(private val purchaseFragment: PurchaseFragment) {
+import org.kl.smartbuy.model.Purchase
+import org.kl.smartbuy.databinding.PurchaseItemBinding
+import org.kl.smartbuy.event.diff.PurchaseDifferenceCallback
+import org.kl.smartbuy.event.purchase.ChoosePurchaseListener
 
-    operator fun invoke(): Boolean {
-        with(purchaseFragment) {
-            purchaseAdapter.position = -1
-            purchaseAdapter.notifyDataSetChanged()
-            notifyMenuItemSelected(false)
-        }
+class PurchaseAdapter : PagingDataAdapter<Purchase, PurchaseViewHolder>(PurchaseDifferenceCallback()) {
+    var notifyAction: ((Boolean) -> Boolean)? = null
+    var position: Int = 0
 
-        return true
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PurchaseViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = PurchaseItemBinding.inflate(inflater, parent, false)
+
+        return PurchaseViewHolder(binding)
     }
+
+    override fun onBindViewHolder(holder: PurchaseViewHolder, position: Int) {
+        val purchase = getItem(position)
+
+        if (purchase != null) {
+            holder.bind(purchase, getCurrentItemId())
+            holder.binding.root.setOnLongClickListener(ChoosePurchaseListener(holder))
+        }
+    }
+
+    fun getCurrentItem(): Purchase? = getItem(position)
+    fun getCurrentItemId(): Long = getItem(position)?.id ?: -1
 }

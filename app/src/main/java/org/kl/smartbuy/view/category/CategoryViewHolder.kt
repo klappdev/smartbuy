@@ -21,19 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.event.purchase
+package org.kl.smartbuy.view.category
 
-import org.kl.smartbuy.view.purchase.PurchaseFragment
+import androidx.recyclerview.widget.RecyclerView
 
-class ResetPurchaseListener(private val purchaseFragment: PurchaseFragment) {
+import org.kl.smartbuy.databinding.CategoryItemBinding
+import org.kl.smartbuy.model.Category
 
-    operator fun invoke(): Boolean {
-        with(purchaseFragment) {
-            purchaseAdapter.position = -1
-            purchaseAdapter.notifyDataSetChanged()
-            notifyMenuItemSelected(false)
+class CategoryViewHolder(
+    private val binding: CategoryItemBinding
+) : RecyclerView.ViewHolder(binding.root) {
+
+    fun bind(item: Category) {
+        with(binding) {
+            category = item
+            executePendingBindings()
         }
-
-        return true
     }
 }

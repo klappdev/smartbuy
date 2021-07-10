@@ -33,9 +33,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 import org.kl.smartbuy.db.PurchaseDatabase
-import org.kl.smartbuy.db.dao.CategoryDao
-import org.kl.smartbuy.db.dao.ProductDao
-import org.kl.smartbuy.db.dao.PurchaseDao
+import org.kl.smartbuy.db.dao.*
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -60,5 +58,15 @@ class DatabaseModule {
     @Provides
     fun providePurchaseDao(purchaseDatabase: PurchaseDatabase): PurchaseDao {
         return purchaseDatabase.purchaseDao()
+    }
+
+    @Provides
+    fun provideCategoryProductsDao(purchaseDatabase: PurchaseDatabase) : CategoryProductsDao {
+        return purchaseDatabase.categoryProductsDao()
+    }
+
+    @Provides
+    fun providePurchaseProductsDao(purchaseDatabase: PurchaseDatabase) : PurchaseProductsDao {
+        return purchaseDatabase.purchaseProductsDao()
     }
 }

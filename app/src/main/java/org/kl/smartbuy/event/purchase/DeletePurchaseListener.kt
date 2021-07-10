@@ -27,7 +27,7 @@ import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
 
 import org.kl.smartbuy.model.Purchase
-import org.kl.smartbuy.view.fragment.PurchaseFragment
+import org.kl.smartbuy.view.purchase.PurchaseFragment
 
 class DeletePurchaseListener(fragment: PurchaseFragment) {
     private val activity = fragment.parentActivity

@@ -38,7 +38,7 @@ class PurchaseDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val purchaseRepository: PurchaseRepository,
 ) : ViewModel() {
-    private val purchaseId: Int = savedStateHandle.get<Int>("purchaseId")!!
+    private val purchaseId: Long = savedStateHandle.get<Long>("purchaseId")!!
 
     private var _purchase = MutableStateFlow(Purchase())
     public val purchase: StateFlow<Purchase> = _purchase.asStateFlow()

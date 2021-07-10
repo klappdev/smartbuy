@@ -8,8 +8,8 @@
 
 	<data>
 		<variable
-			name="category"
-			type="org.kl.smartbuy.model.Category" />
+			name="product"
+			type="org.kl.smartbuy.model.Product" />
 	</data>
 
 	<androidx.cardview.widget.CardView
@@ -17,11 +17,6 @@
 		android:layout_width="180dp"
 		android:layout_height="200dp"
 		android:layout_margin="5dp"
-
-		android:clickable="true"
-		android:focusable="true"
-		android:foreground="?android:selectableItemBackground"
-		app:cardBackgroundColor="@color/accent_color"
 		cardview:cardCornerRadius="4dp">
 
 		<LinearLayout
@@ -30,24 +25,24 @@
 			android:layout_height="match_parent">
 
 			<ImageView
-				android:id="@+id/category_image_view"
+				android:id="@+id/product_image_view"
 				android:layout_width="match_parent"
 				android:layout_height="160dp"
 
 				android:scaleType="centerInside"
 				android:background="#2d2d2d"
 				tools:ignore="ContentDescription"
-				app:imageFromUrl="@{category.iconUrl}"/>
+				app:imageFromUrl="@{product.iconUrl}"/>
 
 			<TextView
-				android:id="@+id/name_category_text_view"
+				android:id="@+id/name_product_text_view"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:gravity="center"
 
 				android:textColor="#2d2d2d"
 				android:textSize="13sp"
-				android:text="@{category.name}"/>
+				android:text="@{product.name}"/>
 
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>

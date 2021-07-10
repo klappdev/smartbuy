@@ -21,19 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.event.purchase
+package org.kl.smartbuy.view.purchase
 
-import org.kl.smartbuy.view.purchase.PurchaseFragment
+import timber.log.Timber
+import androidx.recyclerview.widget.RecyclerView
 
-class ResetPurchaseListener(private val purchaseFragment: PurchaseFragment) {
+import org.kl.smartbuy.R
+import org.kl.smartbuy.databinding.PurchaseItemBinding
+import org.kl.smartbuy.model.Purchase
 
-    operator fun invoke(): Boolean {
-        with(purchaseFragment) {
-            purchaseAdapter.position = -1
-            purchaseAdapter.notifyDataSetChanged()
-            notifyMenuItemSelected(false)
+class PurchaseViewHolder(
+    val binding: PurchaseItemBinding
+) : RecyclerView.ViewHolder(binding.root) {
+
+    fun bind(item: Purchase, currentId: Long) {
+        if (item.id == currentId) {
+            binding.itemPurchaseImage.setImageResource(R.drawable.purchase_selected_icon)
+            Timber.d("Purchase selected")
+        } else {
+            binding.itemPurchaseImage.setImageResource(R.drawable.purchase_icon)
+            Timber.d("Purchase not selected")
         }
-
-        return true
+		
+        with(binding) {
+            purchase = item
+            executePendingBindings()
+        }
     }
 }

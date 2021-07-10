@@ -28,16 +28,18 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-import org.kl.smartbuy.db.dao.CategoryDao
-import org.kl.smartbuy.db.dao.ProductDao
-import org.kl.smartbuy.db.dao.PurchaseDao
 import org.kl.smartbuy.event.db.LoadInitDBCallback
+import org.kl.smartbuy.db.dao.*
 import org.kl.smartbuy.model.Category
 import org.kl.smartbuy.model.Product
 import org.kl.smartbuy.model.Purchase
+import org.kl.smartbuy.model.PurchaseProduct
 
 @Database(
-    entities = [Product::class, Category::class, Purchase::class],
+    entities = [
+        Product::class, Category::class,
+        Purchase::class, PurchaseProduct::class
+    ],
     version = 1,
     exportSchema = false
 )
@@ -45,6 +47,8 @@ abstract class PurchaseDatabase: RoomDatabase() {
     abstract fun productDao(): ProductDao
     abstract fun categoryDao(): CategoryDao
     abstract fun purchaseDao(): PurchaseDao
+    abstract fun categoryProductsDao(): CategoryProductsDao
+    abstract fun purchaseProductsDao(): PurchaseProductsDao
 
     companion object {
         @Volatile @JvmStatic
@@ -63,6 +67,7 @@ abstract class PurchaseDatabase: RoomDatabase() {
             return instance!!
         }
 
+        @JvmStatic
         private fun buildDatabase(context: Context): PurchaseDatabase {
             return Room.databaseBuilder(context, PurchaseDatabase::class.java, "smartbuy.db")
                        .addCallback(LoadInitDBCallback(context))

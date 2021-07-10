@@ -21,19 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.event.purchase
+package org.kl.smartbuy.event.category
 
-import org.kl.smartbuy.view.purchase.PurchaseFragment
+import android.view.View
 
-class ResetPurchaseListener(private val purchaseFragment: PurchaseFragment) {
+import org.kl.smartbuy.view.category.CategoryAdapter
+import org.kl.smartbuy.view.category.CategoryViewHolder
 
-    operator fun invoke(): Boolean {
-        with(purchaseFragment) {
-            purchaseAdapter.position = -1
-            purchaseAdapter.notifyDataSetChanged()
-            notifyMenuItemSelected(false)
-        }
+class ChooseCategoryListener(
+    private val categoryViewHolder: CategoryViewHolder
+) : View.OnClickListener {
 
-        return true
+    override fun onClick(viwq: View?) {
+        val categoryAdapter = categoryViewHolder.bindingAdapter as CategoryAdapter
+
+        categoryAdapter.position = categoryViewHolder.absoluteAdapterPosition
+
+        categoryAdapter.navigateAction()
     }
 }

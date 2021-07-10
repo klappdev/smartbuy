@@ -1,7 +1,7 @@
 /*
  * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
  * SPDX-License-Identifier: MIT
- * Copyright (c) 2020 - 2021 https://github.com/klappdev
+ * Copyright (c) 2019 - 2021 https://github.com/klappdev
  *
  * Permission is hereby  granted, free of charge, to any  person obtaining a copy
  * of this software and associated  documentation files (the "Software"), to deal
@@ -21,26 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.view.adapter
+package org.kl.smartbuy.init
 
-import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
+import android.content.Context
+import androidx.startup.Initializer
 
-import org.kl.smartbuy.view.fragment.CategoryFragment
-import org.kl.smartbuy.view.fragment.PurchaseFragment
+import org.kl.smartbuy.BuildConfig
+import timber.log.Timber
 
-const val CATEGORY_TAB = 0
-const val PURCHASE_TAB = 1
+class TimberInitializer: Initializer<Unit> {
 
-class TabPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-
-    override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            CATEGORY_TAB -> CategoryFragment()
-            PURCHASE_TAB -> PurchaseFragment()
-            else -> error("Unknown tab order")
+    override fun create(context: Context) {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugLogTree())
+        } else {
+            Timber.plant(ReleaseLogTree())
         }
     }
 
-    override fun getItemCount() = 2
+    override fun dependencies(): List<Class<out Initializer<*>>> = emptyList()
 }

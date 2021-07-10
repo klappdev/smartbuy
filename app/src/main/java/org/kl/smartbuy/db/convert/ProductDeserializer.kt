@@ -21,19 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.event.purchase
+package org.kl.smartbuy.db.convert
 
-import org.kl.smartbuy.view.purchase.PurchaseFragment
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonParseException
 
-class ResetPurchaseListener(private val purchaseFragment: PurchaseFragment) {
+import java.lang.reflect.Type
+import org.kl.smartbuy.model.Product
 
-    operator fun invoke(): Boolean {
-        with(purchaseFragment) {
-            purchaseAdapter.position = -1
-            purchaseAdapter.notifyDataSetChanged()
-            notifyMenuItemSelected(false)
-        }
+class ProductDeserializer : JsonDeserializer<Product> {
 
-        return true
+    @Throws(JsonParseException::class)
+    override fun deserialize(json: JsonElement?,
+                             typeOfT: Type?, context: JsonDeserializationContext?): Product {
+        val jsonObject = json?.asJsonObject ?: throw JsonParseException("Product json object is incorrect")
+
+        return Product(
+                jsonObject["id"].asLong,
+                jsonObject["idCategory"].asLong,
+                jsonObject["name"].asString,
+                jsonObject["description"].asString,
+                jsonObject["price"].asDouble,
+                RangeConverter.toRange(jsonObject["range"].asString),
+                jsonObject["measure"].asString,
+                jsonObject["iconUrl"].asString
+        )
     }
 }

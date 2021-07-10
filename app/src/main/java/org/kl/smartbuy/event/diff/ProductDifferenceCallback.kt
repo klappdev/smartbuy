@@ -21,21 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.view.adapter
+package org.kl.smartbuy.event.diff
 
-import android.widget.ImageView
-import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.DiffUtil
+import org.kl.smartbuy.model.Product
 
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+class ProductDifferenceCallback : DiffUtil.ItemCallback<Product>() {
 
-@BindingAdapter("imageFromUrl")
-fun bindIconFromUrl(view: ImageView, imageUrl: String?) {
-    if (!imageUrl.isNullOrEmpty()) {
-        Glide.with(view.context)
-            .load(imageUrl)
-            .placeholder(android.R.drawable.ic_menu_report_image)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(view)
+    override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
+        return oldItem == newItem
     }
 }

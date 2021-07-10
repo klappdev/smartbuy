@@ -1,7 +1,7 @@
 /*
  * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
  * SPDX-License-Identifier: MIT
- * Copyright (c) 2020 - 2021 https://github.com/klappdev
+ * Copyright (c) 2019 - 2021 https://github.com/klappdev
  *
  * Permission is hereby  granted, free of charge, to any  person obtaining a copy
  * of this software and associated  documentation files (the "Software"), to deal
@@ -21,28 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.view.adapter
+package org.kl.smartbuy.init
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
+import timber.log.Timber
 
-import org.kl.smartbuy.model.Category
-import org.kl.smartbuy.view.holder.CategoryViewHolder
-import org.kl.smartbuy.event.diff.CategoryDifferenceCallback
-import org.kl.smartbuy.databinding.CategoryItemBinding
+class DebugLogTree : Timber.DebugTree() {
 
-class CategoryAdapter : ListAdapter<Category, CategoryViewHolder>(CategoryDifferenceCallback()) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = CategoryItemBinding.inflate(inflater, parent, false)
-
-        return CategoryViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        val category = getItem(position)
-        holder.bind(category)
+    override fun createStackElementTag(element: StackTraceElement): String {
+        return super.createStackElementTag(element) + ": " + element.lineNumber
     }
 }

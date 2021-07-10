@@ -43,8 +43,14 @@ interface CategoryDao {
     @Delete
     suspend fun delete(category: Category)
 
-    @Query("SELECT * FROM category WHERE id = :id")
-    fun getById(id: Int): LiveData<Category>
+    @Query("SELECT id_category FROM category")
+    suspend fun getAllIds(): List<Long>
+
+    @Query("SELECT COUNT(*) FROM category")
+    fun getCount(): LiveData<Int>
+
+    @Query("SELECT * FROM category WHERE id_category = :id")
+    fun getById(id: Long): LiveData<Category>
 
     @Query("SELECT * FROM category")
     fun getAll(): LiveData<List<Category>>

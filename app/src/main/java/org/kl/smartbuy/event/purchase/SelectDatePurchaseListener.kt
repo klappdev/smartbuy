@@ -28,7 +28,7 @@ import android.app.DatePickerDialog
 import android.view.View
 import android.widget.DatePicker
 
-import org.kl.smartbuy.view.activity.EditPurchaseActivity
+import org.kl.smartbuy.view.purchase.EditPurchaseActivity
 import java.text.SimpleDateFormat
 
 class SelectDatePurchaseListener(
