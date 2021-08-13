@@ -12,12 +12,17 @@ Architecture:
 ------------
 MVVM (Model View ViewModel)
 
+Branches:
+------------
+  * master   - using compose base graphic user interface
+  * viewbase - using view base graphic user interface
+
 Used Android libraries:
 -----------------------
   * AppCompat
   * Android KTX
   * App Startup
-  * Data Binding/View Binding
+  * Compose
   * Lifecycle/LiveData
   * Pagging
   * Navigation

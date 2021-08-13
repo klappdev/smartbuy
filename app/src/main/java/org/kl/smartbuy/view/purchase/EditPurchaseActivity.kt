@@ -27,12 +27,26 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
+
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.google.accompanist.appcompattheme.AppCompatTheme
 
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+import org.kl.smartbuy.R
 import org.kl.smartbuy.databinding.ActivityEditPurchaseBinding
 import org.kl.smartbuy.event.purchase.EditPurchaseListener
 import org.kl.smartbuy.event.purchase.SelectDatePurchaseListener
@@ -48,20 +62,55 @@ class EditPurchaseActivity : AppCompatActivity() {
     public lateinit var dateTextView: EditText
     private lateinit var editPurchaseButton: Button
 
-    public  val purchaseDetailViewModel: PurchaseDetailViewModel by viewModels()
+    public val purchaseDetailViewModel: PurchaseDetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         purchaseDetailViewModel.resetPurchase()
 
+        /* ---- */
         val binding = ActivityEditPurchaseBinding.inflate(layoutInflater)
         binding.viewModel = purchaseDetailViewModel
         binding.lifecycleOwner = this
 
         initView(binding)
 
-        setContentView(binding.root)
+        //setContentView(binding.root)
+        /* ---- */
+
+        setContent {
+            AppCompatTheme {
+                EditPurchaseScreen()
+            }
+        }
+    }
+
+    @Preview
+    @Composable
+    private fun EditPurchaseScreen() {
+        var namePurchase by remember { mutableStateOf("") }
+        var datePurchase by remember { mutableStateOf("") }
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Bottom) {
+            Image(
+                painter = painterResource(R.drawable.purchase_icon),
+                contentDescription = "Purchase icon"
+            )
+            TextField(
+                value = namePurchase,
+                onValueChange = { namePurchase = it },
+                label = { Text(stringResource(R.string.name_hint)) }
+            )
+            TextField(
+                value = datePurchase,
+                onValueChange = { datePurchase = it },
+                label = { Text(stringResource(R.string.date_hint)) }
+            )
+
+        }
     }
 
     private fun initView(binding: ActivityEditPurchaseBinding) {
