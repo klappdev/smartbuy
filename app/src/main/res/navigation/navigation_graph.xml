@@ -8,23 +8,22 @@
 
     <fragment
         android:id="@+id/view_pager_fragment"
-        android:name="org.kl.smartbuy.view.common.TabPagerFragment"
-        tools:layout="@layout/fragment_view_pager">
+        android:name="org.kl.smartbuy.ui.tabs.TabPagerFragment">
 
         <action
             android:id="@+id/action_tab_pager_fragment_to_edit_purchase_activity"
-            app:destination="@id/edit_purchase_activity"/>
+            app:destination="@id/edit_purchase_activity" />
 
         <action
             android:id="@+id/action_tab_pager_fragment_to_show_category_activity"
-            app:destination="@id/show_category_activity"/>
+            app:destination="@id/show_category_activity" />
+
     </fragment>
 
     <activity
         android:id="@+id/edit_purchase_activity"
-        android:name="org.kl.smartbuy.view.purchase.EditPurchaseActivity"
-        android:label="@string/edit_purchase_title"
-        tools:layout="@layout/activity_edit_purchase">
+        android:name="org.kl.smartbuy.ui.purchase.EditPurchaseActivity"
+        android:label="@string/edit_purchase_title">
 
         <argument
             android:name="purchaseId"
@@ -34,9 +33,23 @@
 
     <activity
         android:id="@+id/show_category_activity"
-        android:name="org.kl.smartbuy.view.category.ShowCategoryActivity"
-        android:label="@string/edit_purchase_title"
+        android:name="org.kl.smartbuy.ui.category.ShowCategoryActivity"
+        android:label="@string/show_category_title"
         tools:layout="@layout/activity_show_category">
+
+        <argument
+            android:name="productId"
+            app:argType="long"
+            android:defaultValue="0L"/>
+
+
+    </activity>
+
+    <activity
+        android:id="@+id/show_product_activity"
+        android:name="org.kl.smartbuy.ui.product.ShowProductActivity"
+        android:label="@string/show_product_title"
+        tools:layout="@layout/activity_show_product">
 
         <argument
             android:name="productId"

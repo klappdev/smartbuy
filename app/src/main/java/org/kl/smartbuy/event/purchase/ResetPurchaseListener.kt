@@ -23,7 +23,7 @@
  */
 package org.kl.smartbuy.event.purchase
 
-import org.kl.smartbuy.view.purchase.PurchaseFragment
+import org.kl.smartbuy.ui.purchase.PurchaseFragment
 
 class ResetPurchaseListener(private val purchaseFragment: PurchaseFragment) {
 

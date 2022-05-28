@@ -23,6 +23,7 @@
  */
 package org.kl.smartbuy.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -31,33 +32,52 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 import org.kl.smartbuy.db.repo.PurchaseRepository
-import org.kl.smartbuy.model.Purchase
+import org.kl.smartbuy.db.entity.Purchase
 
 @HiltViewModel
 class PurchaseDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val purchaseRepository: PurchaseRepository,
 ) : ViewModel() {
-    private val purchaseId: Long = savedStateHandle.get<Long>("purchaseId")!!
+    private val purchaseId: Long = savedStateHandle.get<Long>("purchaseId") ?: -1L
 
-    private var _purchase = MutableStateFlow(Purchase())
-    public val purchase: StateFlow<Purchase> = _purchase.asStateFlow()
+    private var _name = MutableStateFlow("")
+    public val name: StateFlow<String> = _name.asStateFlow()
+
+    private var _date = MutableStateFlow("")
+    public val date: StateFlow<String> = _date.asStateFlow()
 
     init {
-        resetPurchase()
+        loadPurchase()
     }
 
-    fun resetPurchase() {
+    private fun loadPurchase() {
         viewModelScope.launch {
             purchaseRepository.getPurchase(purchaseId).collect { purchase ->
-                _purchase.value = purchase
+                _name.value = purchase.name
+                _date.value = purchase.date
+
+                Log.i("TEST", "LOAD NAME: ${_name.value}")
+                Log.i("TEST", "LOAD DATE: ${_date.value}")
             }
         }
     }
 
-    fun editPurchase(purchase: Purchase) {
+    fun storePurchase() {
         viewModelScope.launch {
+            Log.i("TEST", "STORE NAME: ${_name.value}")
+            Log.i("TEST", "STORE DATE: ${_date.value}")
+
+            val purchase = Purchase(purchaseId, _name.value, _date.value)
             purchaseRepository.updatePurchase(purchase)
         }
+    }
+
+    fun onNameChange(name: String) {
+        _name.value = name
+    }
+
+    fun onDateChange(date: String) {
+        _date.value = date
     }
 }

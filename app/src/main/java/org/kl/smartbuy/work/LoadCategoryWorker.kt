@@ -36,7 +36,7 @@ import timber.log.Timber
 
 import org.kl.smartbuy.db.PurchaseDatabase
 import org.kl.smartbuy.db.dao.CategoryDao
-import org.kl.smartbuy.model.Category
+import org.kl.smartbuy.db.entity.Category
 
 class LoadCategoryWorker(
     context: Context, workerParams: WorkerParameters
@@ -57,7 +57,7 @@ class LoadCategoryWorker(
 
             Result.success(outputData)
         } catch (e: Exception) {
-            Timber.e(e, "Error preload categories to db from json")
+            Timber.e(e, "Error preload categories to db from json file")
             Result.failure()
         }
     }

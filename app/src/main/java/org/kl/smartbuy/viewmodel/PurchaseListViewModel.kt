@@ -35,7 +35,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 import org.kl.smartbuy.db.repo.PurchaseRepository
-import org.kl.smartbuy.model.Purchase
+import org.kl.smartbuy.db.entity.Purchase
 
 @HiltViewModel
 class PurchaseListViewModel @Inject constructor(

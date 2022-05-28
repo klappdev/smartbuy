@@ -27,14 +27,10 @@ import android.annotation.SuppressLint
 import android.util.Log
 import timber.log.Timber
 
-class ReleaseLogTree: Timber.Tree() {
+class ReleaseLogTree : Timber.Tree() {
 
     override fun isLoggable(tag: String?, priority: Int): Boolean {
-        if (priority == Log.VERBOSE || priority == Log.DEBUG || priority == Log.INFO) {
-            return false
-        }
-
-        return true
+        return priority != Log.VERBOSE && priority != Log.DEBUG && priority != Log.INFO
     }
 
     @SuppressLint("LogNotTimber")

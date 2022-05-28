@@ -26,8 +26,8 @@ package org.kl.smartbuy.event.purchase
 import androidx.navigation.Navigation
 
 import org.kl.smartbuy.R
-import org.kl.smartbuy.view.purchase.PurchaseFragment
-import org.kl.smartbuy.view.common.TabPagerFragmentDirections
+import org.kl.smartbuy.ui.purchase.PurchaseFragment
+import org.kl.smartbuy.ui.common.TabPagerFragmentDirections
 
 class NavigatePurchaseListener(fragment: PurchaseFragment) {
     private val activity = fragment.parentActivity

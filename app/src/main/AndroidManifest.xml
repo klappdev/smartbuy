@@ -10,15 +10,17 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Smartbuy"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".view.MainActivity"
+            android:name=".ui.product.ShowProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Smartbuy.NoActionBar"
-            android:exported="true">
+            android:theme="@style/Theme.Smartbuy.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,30 +28,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.category.ShowCategoryActivity"
-            android:label="@string/show_category_title">
-        </activity>
+            android:name=".ui.category.ShowCategoryActivity"
+            android:label="@string/show_category_title"></activity>
         <activity
-            android:name=".view.purchase.EditPurchaseActivity"
-            android:label="@string/edit_purchase_title">
-        </activity>
+            android:name=".ui.purchase.EditPurchaseActivity"
+            android:label="@string/edit_purchase_title"></activity>
 
         <provider
             android:name="androidx.work.impl.WorkManagerInitializer"
             android:authorities="${applicationId}.workmanager-init"
             android:exported="false"
             tools:node="remove" />
-
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
             tools:node="merge">
-
             <meta-data
                 android:name="org.kl.smartbuy.init.WorkManagersInitializer"
                 android:value="androidx.startup" />
-
             <meta-data
                 android:name="org.kl.smartbuy.init.TimberInitializer"
                 android:value="androidx.startup" />

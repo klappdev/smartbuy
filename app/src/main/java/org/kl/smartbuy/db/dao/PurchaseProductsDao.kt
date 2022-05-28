@@ -28,7 +28,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 
-import org.kl.smartbuy.model.PurchaseProducts
+import org.kl.smartbuy.db.entity.PurchaseProducts
 
 @Dao
 interface PurchaseProductsDao {

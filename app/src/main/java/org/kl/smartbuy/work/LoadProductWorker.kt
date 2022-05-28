@@ -35,7 +35,7 @@ import timber.log.Timber
 
 import org.kl.smartbuy.db.PurchaseDatabase
 import org.kl.smartbuy.db.convert.ProductDeserializer
-import org.kl.smartbuy.model.Product
+import org.kl.smartbuy.db.entity.Product
 
 class LoadProductWorker(
     context: Context, workerParams: WorkerParameters
@@ -55,7 +55,7 @@ class LoadProductWorker(
                 Result.failure()
             }
         } catch (e: Exception) {
-            Timber.e(e, "Error preload products to db from json")
+            Timber.e(e, "Error preload products to db from json file")
             Result.failure()
         }
     }

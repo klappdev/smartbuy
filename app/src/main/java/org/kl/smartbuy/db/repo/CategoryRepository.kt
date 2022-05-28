@@ -28,7 +28,7 @@ import javax.inject.Singleton
 import javax.inject.Inject
 
 import org.kl.smartbuy.db.dao.CategoryDao
-import org.kl.smartbuy.model.Category
+import org.kl.smartbuy.db.entity.Category
 
 @Singleton
 class CategoryRepository @Inject constructor(private val categoryDao: CategoryDao) {

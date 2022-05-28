@@ -4,6 +4,7 @@
     <string name="category_tab">Category</string>
     <string name="purchase_tab">Purchase</string>
 
+    <string name="show_product_title">Show Product</string>
     <string name="show_category_title">Show Category</string>
     <string name="edit_purchase_title">Edit Purchase</string>
     <string name="view_purchase_title">View Purchase</string>
@@ -20,7 +21,10 @@
     <string name="edit_title">Edit</string>
     <string name="search_hint">Search …</string>
 
-    <string name="name_hint">name</string>
-    <string name="description_hint">description</string>
+    <string name="name_hint">Name</string>
+    <string name="description_hint">Description</string>
     <string name="date_hint">hh/MM/yyyy</string>
+
+    <string name="name_value_error">"Name must contain only characters and numbers"</string>
+    <string name="date_value_error">"Date must contain only numbers and dots"</string>
 </resources>

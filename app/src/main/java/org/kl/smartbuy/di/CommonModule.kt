@@ -27,10 +27,10 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-import org.kl.smartbuy.event.validate.ViewValidator
+import org.kl.smartbuy.ui.common.ViewValidator
 
 @Module
-class CommonModule {
+object CommonModule {
 
     @Provides
     @Singleton

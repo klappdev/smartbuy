@@ -26,7 +26,7 @@ package org.kl.smartbuy.db.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
-import org.kl.smartbuy.model.Product
+import org.kl.smartbuy.db.entity.Product
 
 @Dao
 interface ProductDao {

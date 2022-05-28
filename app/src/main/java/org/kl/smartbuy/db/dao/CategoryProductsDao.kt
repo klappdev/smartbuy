@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 
-import org.kl.smartbuy.model.CategoryProducts
+import org.kl.smartbuy.db.entity.CategoryProducts
 
 @Dao
 interface CategoryProductsDao {

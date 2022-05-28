@@ -27,7 +27,7 @@ import androidx.paging.PagingSource
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
-import org.kl.smartbuy.model.Purchase
+import org.kl.smartbuy.db.entity.Purchase
 
 @Dao
 interface PurchaseDao {

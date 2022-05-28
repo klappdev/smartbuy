@@ -28,7 +28,7 @@ import android.app.DatePickerDialog
 import android.view.View
 import android.widget.DatePicker
 
-import org.kl.smartbuy.view.purchase.EditPurchaseActivity
+import org.kl.smartbuy.ui.purchase.EditPurchaseActivity
 import java.text.SimpleDateFormat
 
 class SelectDatePurchaseListener(
@@ -52,6 +52,6 @@ class SelectDatePurchaseListener(
         val format = "dd.MM.yyyy"
         val dateFormat = SimpleDateFormat(format, Locale.getDefault())
 
-        activity.dateTextView.setText(dateFormat.format(calendar.time))
+        //activity.dateTextView.setText(dateFormat.format(calendar.time))
     }
 }

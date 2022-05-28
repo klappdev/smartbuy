@@ -1,12 +1,14 @@
 # smartbuy
 
+[![Apk file](https://img.shields.io/github/downloads/genuinetools/apk-file/total.svg?style=for-the-badge)](files/app-debug.apk)
+
 Android application for simple buying products in shops.
 
 The purpose of the application is to simplify buying products in shops using</br> 
 user friendly interface.
 
-![List of categories](screenshot/smartbuy_1.jpg "A list of categories")
-![List of purchases](screenshot/smartbuy_2.jpg "A list of purchases")
+![List of categories](files/smartbuy_1.jpg "A list of categories")
+![List of purchases](files/smartbuy_2.jpg "A list of purchases")
 
 Architecture:
 ------------
@@ -27,6 +29,7 @@ Used Android libraries:
   * Pagging
   * Navigation
   * Room
+  * Data Store
   * ViewModel
   * WorkManager
   

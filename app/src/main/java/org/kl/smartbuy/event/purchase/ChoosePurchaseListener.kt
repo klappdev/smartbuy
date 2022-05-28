@@ -24,8 +24,8 @@
 package org.kl.smartbuy.event.purchase
 
 import android.view.View
-import org.kl.smartbuy.view.purchase.PurchaseAdapter
-import org.kl.smartbuy.view.purchase.PurchaseViewHolder
+import org.kl.smartbuy.ui.purchase.PurchaseAdapter
+import org.kl.smartbuy.ui.purchase.PurchaseViewHolder
 
 class ChoosePurchaseListener(
     private val purchaseViewHolder: PurchaseViewHolder

@@ -24,7 +24,7 @@
         android:layout_alignParentStart="true"
 
         tools:listitem="@layout/purchase_item"
-        tools:context="org.kl.smartbuy.view.MainActivity" />
+        tools:context="org.kl.smartbuy.ui.MainActivity" />
 
     <TextView
         android:id="@+id/purchase_empty_text_view"

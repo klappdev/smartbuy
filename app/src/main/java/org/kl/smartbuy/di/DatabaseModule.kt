@@ -37,7 +37,7 @@ import org.kl.smartbuy.db.dao.*
 
 @Module
 @InstallIn(SingletonComponent::class)
-class DatabaseModule {
+object DatabaseModule {
 
     @Provides
     @Singleton

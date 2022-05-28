@@ -25,18 +25,16 @@ package org.kl.smartbuy.event.category
 
 import android.view.View
 
-import org.kl.smartbuy.view.category.CategoryAdapter
-import org.kl.smartbuy.view.category.CategoryViewHolder
+import org.kl.smartbuy.ui.category.CategoryAdapter
+import org.kl.smartbuy.ui.category.CategoryViewHolder
 
 class ChooseCategoryListener(
-    private val categoryViewHolder: CategoryViewHolder
+    private val viewHolder: CategoryViewHolder
 ) : View.OnClickListener {
 
     override fun onClick(viwq: View?) {
-        val categoryAdapter = categoryViewHolder.bindingAdapter as CategoryAdapter
-
-        categoryAdapter.position = categoryViewHolder.absoluteAdapterPosition
-
-        categoryAdapter.navigateAction()
+        val adapter = viewHolder.bindingAdapter as CategoryAdapter
+        adapter.position = viewHolder.absoluteAdapterPosition
+        adapter.navigateAction()
     }
 }

@@ -29,7 +29,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-import org.kl.smartbuy.model.Category
+import org.kl.smartbuy.db.entity.Category
 import org.kl.smartbuy.db.repo.CategoryRepository
 
 @HiltViewModel

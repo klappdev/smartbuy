@@ -29,7 +29,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonParseException
 
 import java.lang.reflect.Type
-import org.kl.smartbuy.model.Product
+import org.kl.smartbuy.db.entity.Product
 
 class ProductDeserializer : JsonDeserializer<Product> {
 

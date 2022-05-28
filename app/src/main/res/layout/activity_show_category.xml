@@ -12,7 +12,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="org.kl.smartbuy.view.category.ShowCategoryActivity">
+    tools:context="org.kl.smartbuy.ui.category.ShowCategoryActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/product_recycle_view"

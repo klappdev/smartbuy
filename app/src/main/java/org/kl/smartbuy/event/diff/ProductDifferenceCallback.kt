@@ -24,7 +24,7 @@
 package org.kl.smartbuy.event.diff
 
 import androidx.recyclerview.widget.DiffUtil
-import org.kl.smartbuy.model.Product
+import org.kl.smartbuy.db.entity.Product
 
 class ProductDifferenceCallback : DiffUtil.ItemCallback<Product>() {
 

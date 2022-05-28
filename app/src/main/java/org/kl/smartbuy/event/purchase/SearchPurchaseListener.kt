@@ -30,7 +30,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 
 import org.kl.smartbuy.R
-import org.kl.smartbuy.view.purchase.PurchaseFragment
+import org.kl.smartbuy.ui.purchase.PurchaseFragment
 
 class SearchPurchaseListener(
     private val purchaseFragment: PurchaseFragment

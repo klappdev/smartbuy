@@ -30,10 +30,10 @@ import androidx.room.RoomDatabase
 
 import org.kl.smartbuy.event.db.LoadInitDBCallback
 import org.kl.smartbuy.db.dao.*
-import org.kl.smartbuy.model.Category
-import org.kl.smartbuy.model.Product
-import org.kl.smartbuy.model.Purchase
-import org.kl.smartbuy.model.PurchaseProduct
+import org.kl.smartbuy.db.entity.Category
+import org.kl.smartbuy.db.entity.Product
+import org.kl.smartbuy.db.entity.Purchase
+import org.kl.smartbuy.db.entity.PurchaseProduct
 
 @Database(
     entities = [

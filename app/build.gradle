@@ -91,7 +91,7 @@ dependencies {
     implementation "androidx.compose.material:material:$rootProject.composeMaterialVersion"
     implementation "androidx.compose.animation:animation:$rootProject.composeAnimationVersion"
     implementation "androidx.compose.ui:ui-tooling:$rootProject.composeUiToolingVersion"
-    implementation "com.google.accompanist:accompanist-appcompat-theme:$rootProject.appCompatThemeVersion"
+    implementation "com.google.android.material:compose-theme-adapter:$rootProject.mdcThemeVersion"
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$rootProject.composeLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycleVersion"

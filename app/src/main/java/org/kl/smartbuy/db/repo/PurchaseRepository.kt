@@ -32,7 +32,7 @@ import javax.inject.Singleton
 import javax.inject.Inject
 
 import org.kl.smartbuy.db.dao.PurchaseDao
-import org.kl.smartbuy.model.Purchase
+import org.kl.smartbuy.db.entity.Purchase
 
 @Singleton
 class PurchaseRepository @Inject constructor(private val purchaseDao: PurchaseDao) {

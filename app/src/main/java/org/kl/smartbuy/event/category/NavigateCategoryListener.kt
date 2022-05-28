@@ -1,7 +1,7 @@
 /*
  * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
  * SPDX-License-Identifier: MIT
- * Copyright (c) 2020 - 2021 https://github.com/klappdev
+ * Copyright (c) 2020 - 2022 https://github.com/klappdev
  *
  * Permission is hereby  granted, free of charge, to any  person obtaining a copy
  * of this software and associated  documentation files (the "Software"), to deal
@@ -26,8 +26,8 @@ package org.kl.smartbuy.event.category
 import androidx.navigation.Navigation
 
 import org.kl.smartbuy.R
-import org.kl.smartbuy.view.category.CategoryFragment
-import org.kl.smartbuy.view.common.TabPagerFragmentDirections
+import org.kl.smartbuy.ui.category.CategoryFragment
+import org.kl.smartbuy.ui.common.TabPagerFragmentDirections
 
 class NavigateCategoryListener(fragment: CategoryFragment) {
     private val activity = fragment.parentActivity
@@ -42,7 +42,6 @@ class NavigateCategoryListener(fragment: CategoryFragment) {
 
             val navigationController = Navigation.findNavController(activity, R.id.navigation_host_fragment)
             navigationController.navigate(direction)
-
         }
     }
 }

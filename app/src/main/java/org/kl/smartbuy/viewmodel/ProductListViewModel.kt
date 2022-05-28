@@ -29,8 +29,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 import org.kl.smartbuy.db.repo.ProductRepository
-import org.kl.smartbuy.model.CategoryProducts
-import org.kl.smartbuy.model.Product
+import org.kl.smartbuy.db.entity.CategoryProducts
+import org.kl.smartbuy.db.entity.Product
 
 @HiltViewModel
 class ProductListViewModel @Inject constructor(
