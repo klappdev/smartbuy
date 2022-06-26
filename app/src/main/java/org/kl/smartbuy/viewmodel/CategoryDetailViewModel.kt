@@ -21,19 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.event.product
+package org.kl.smartbuy.viewmodel
 
-import androidx.navigation.Navigation
-import org.kl.smartbuy.R
-import org.kl.smartbuy.ui.category.ShowCategoryActivity
-import org.kl.smartbuy.ui.category.ShowCategoryActivityDirections
+import androidx.lifecycle.*
 
-class NavigateProductListener(private val activity: ShowCategoryActivity) {
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-    fun navigateShowProduct() {
-        val direction = ShowCategoryActivityDirections.showCategoryActivityToShowProductActivity();
+import org.kl.smartbuy.db.repo.CategoryProductsRepository
+import org.kl.smartbuy.db.entity.CategoryProducts
+import org.kl.smartbuy.db.entity.Product
 
-        val navigationController = Navigation.findNavController(activity, R.id.navigation_host_fragment)
-        navigationController.navigate(direction)
-    }
+@HiltViewModel
+class CategoryDetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    categoryProductsRepository: CategoryProductsRepository
+) : ViewModel() {
+    private val categoryId: Long = savedStateHandle.get<Long>("categoryId")!!
+
+    val products: LiveData<List<Product>> = categoryProductsRepository.getCategoryProducts(categoryId)
+            .map(CategoryProducts::products)
 }

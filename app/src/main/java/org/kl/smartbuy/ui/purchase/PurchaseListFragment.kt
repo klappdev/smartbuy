@@ -1,7 +1,7 @@
 /*
  * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
  * SPDX-License-Identifier: MIT
- * Copyright (c) 2020 - 2021 https://github.com/klappdev
+ * Copyright (c) 2020 - 2022 https://github.com/klappdev
  *
  * Permission is hereby  granted, free of charge, to any  person obtaining a copy
  * of this software and associated  documentation files (the "Software"), to deal
@@ -34,17 +34,19 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.paging.PagingData
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 import org.kl.smartbuy.R
 import org.kl.smartbuy.db.entity.Purchase
 import org.kl.smartbuy.ui.MainActivity
 import org.kl.smartbuy.viewmodel.PurchaseListViewModel
-import org.kl.smartbuy.databinding.FragmentPurchaseBinding
+import org.kl.smartbuy.databinding.FragmentPurchaseListBinding
 import org.kl.smartbuy.event.purchase.*
+import org.kl.smartbuy.ui.tabs.TabPagerFragmentDirections
 
 @AndroidEntryPoint
-class PurchaseFragment : Fragment(R.layout.fragment_purchase) {
+class PurchaseListFragment : Fragment(R.layout.fragment_purchase_list) {
     private lateinit var emptyTextView: TextView
     private lateinit var purchaseRecycleView: RecyclerView
 
@@ -52,12 +54,11 @@ class PurchaseFragment : Fragment(R.layout.fragment_purchase) {
     public lateinit var parentActivity: MainActivity
 
     public val purchasesViewModel: PurchaseListViewModel by viewModels()
-    private var binding: FragmentPurchaseBinding? = null
+    private var binding: FragmentPurchaseListBinding? = null
 
     public lateinit var sortPurchaseListener: SortPurchaseListener
     public lateinit var deletePurchaseListener: DeletePurchaseListener
     public lateinit var resetPurchaseListener: ResetPurchaseListener
-    private lateinit var navigatePurchaseListener: NavigatePurchaseListener
 
     private var searchMenuItem: MenuItem? = null
     private var menuItemSelected: Boolean = false
@@ -86,7 +87,7 @@ class PurchaseFragment : Fragment(R.layout.fragment_purchase) {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         android.R.id.home -> resetPurchaseListener()
-        R.id.action_edit -> navigatePurchaseListener.navigateEditPurchase()
+        R.id.action_edit -> navigateToEditPurchase()
         R.id.action_sort -> sortPurchaseListener()
         R.id.action_delete -> deletePurchaseListener()
         else -> super.onOptionsItemSelected(item)
@@ -103,7 +104,7 @@ class PurchaseFragment : Fragment(R.layout.fragment_purchase) {
     }
 
     private fun initView(rootView: View) {
-        val innerBinding = FragmentPurchaseBinding.bind(rootView)
+        val innerBinding = FragmentPurchaseListBinding.bind(rootView)
         this.binding = innerBinding
 
         this.emptyTextView = innerBinding.purchaseEmptyTextView
@@ -127,7 +128,6 @@ class PurchaseFragment : Fragment(R.layout.fragment_purchase) {
 
     private fun initListeners() {
         this.sortPurchaseListener = SortPurchaseListener(this)
-        this.navigatePurchaseListener = NavigatePurchaseListener(this)
         this.deletePurchaseListener = DeletePurchaseListener(this)
         this.resetPurchaseListener = ResetPurchaseListener(this)
 
@@ -151,7 +151,21 @@ class PurchaseFragment : Fragment(R.layout.fragment_purchase) {
         }
     }
 
-    /*FIXME: method use only for test*/
+    private fun navigateToEditPurchase(): Boolean {
+        val purchaseId = purchaseAdapter.getCurrentItemId()
+
+        if (purchaseId != -1L) {
+            val direction = TabPagerFragmentDirections
+                .actionTabPagerFragmentToEditPurchaseActivity(purchaseId)
+            findNavController().navigate(direction)
+
+            return true
+        }
+
+        return false
+    }
+
+    /*FIXME: method use only for stubs*/
     private fun initPurchases() {
         val listPurchases = mutableListOf<Purchase>()
 

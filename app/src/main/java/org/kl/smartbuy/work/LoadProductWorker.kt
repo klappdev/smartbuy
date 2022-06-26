@@ -1,7 +1,7 @@
 /*
  * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
  * SPDX-License-Identifier: MIT
- * Copyright (c) 2020 - 2021 https://github.com/klappdev
+ * Copyright (c) 2020 - 2022 https://github.com/klappdev
  *
  * Permission is hereby  granted, free of charge, to any  person obtaining a copy
  * of this software and associated  documentation files (the "Software"), to deal
@@ -26,11 +26,14 @@ package org.kl.smartbuy.work
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import kotlinx.coroutines.coroutineScope
 
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
+
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
 import timber.log.Timber
 
 import org.kl.smartbuy.db.PurchaseDatabase
@@ -41,7 +44,7 @@ class LoadProductWorker(
     context: Context, workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams) {
 
-    override suspend fun doWork(): Result = coroutineScope {
+    override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         val idLessons: LongArray? = inputData.getLongArray("id_lessons")
 
         try {

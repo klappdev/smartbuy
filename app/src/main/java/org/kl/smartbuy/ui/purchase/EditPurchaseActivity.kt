@@ -1,7 +1,7 @@
 /*
  * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
  * SPDX-License-Identifier: MIT
- * Copyright (c) 2020 - 2021 https://github.com/klappdev
+ * Copyright (c) 2020 - 2022 https://github.com/klappdev
  *
  * Permission is hereby  granted, free of charge, to any  person obtaining a copy
  * of this software and associated  documentation files (the "Software"), to deal
@@ -43,7 +43,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.material.composethemeadapter.MdcTheme
@@ -66,7 +65,7 @@ class EditPurchaseActivity : AppCompatActivity() {
         }
     }
 
-    //@Preview
+    /*@Preview*/
     @Composable
     private fun EditPurchaseScreen(viewModel: PurchaseDetailViewModel = viewModel()) {
         val name by viewModel.name.collectAsState()
@@ -77,7 +76,7 @@ class EditPurchaseActivity : AppCompatActivity() {
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxWidth()
         ) {
-            item { ImageHeaderView() }
+            item { ImagePurchaseView() }
             item { NamePurchaseView(name, viewModel::onNameChange) }
             item { DatePurchaseView(date, viewModel::onDateChange) }
             item { SubmitPurchaseView(viewModel) }
@@ -85,13 +84,14 @@ class EditPurchaseActivity : AppCompatActivity() {
     }
 
     @Composable
-    private fun ImageHeaderView() {
+    private fun ImagePurchaseView() {
         Image(
             painter = painterResource(R.drawable.purchase_icon),
             contentDescription = stringResource(R.string.purchase_name),
             modifier = Modifier
-                .width(128.dp)
+                .fillMaxWidth()
                 .height(128.dp)
+                .padding(PaddingValues(16.dp))
         )
     }
 
@@ -157,6 +157,7 @@ class EditPurchaseActivity : AppCompatActivity() {
                 colors = ButtonDefaults.buttonColors(colorResource(R.color.primary_color)),
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(64.dp)
                     .padding(PaddingValues(32.dp, 8.dp, 32.dp, 8.dp))
             ) {
                 Text(text = stringResource(R.string.edit_title), color = Color.White)

@@ -21,22 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.ui.product
+package org.kl.smartbuy.viewmodel
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 
-import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-import org.kl.smartbuy.databinding.ActivityShowProductBinding
+import org.kl.smartbuy.db.entity.Product
+import org.kl.smartbuy.db.repo.ProductRepository
 
-@AndroidEntryPoint
-class ShowProductActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+@HiltViewModel
+class ProductDetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    productRepository: ProductRepository
+) : ViewModel() {
+    private val productId: Long = savedStateHandle.get<Long>("productId")!!
 
-        val binding = ActivityShowProductBinding.inflate(layoutInflater)
-
-        setContentView(binding.root)
-    }
+    val product: LiveData<Product> = productRepository.getProduct(productId)
 }

@@ -27,34 +27,30 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 
 import org.kl.smartbuy.R
-import org.kl.smartbuy.db.entity.Category
-import org.kl.smartbuy.ui.MainActivity
-import org.kl.smartbuy.viewmodel.CategoryListViewModel
-import org.kl.smartbuy.databinding.FragmentCategoryBinding
-import org.kl.smartbuy.event.category.NavigateCategoryListener
+import org.kl.smartbuy.databinding.FragmentCategoryDetailBinding
+import org.kl.smartbuy.db.entity.Product
+import org.kl.smartbuy.ui.product.ProductAdapter
+import org.kl.smartbuy.viewmodel.CategoryDetailViewModel
 
 @AndroidEntryPoint
-class CategoryFragment : Fragment(R.layout.fragment_category) {
+class CategoryDetailFragment : Fragment(R.layout.fragment_category_detail) {
     private lateinit var emptyTextView: TextView
-    private lateinit var categoryRecyclerView: RecyclerView
+    private lateinit var productRecyclerView: RecyclerView
 
-    public lateinit var categoryAdapter: CategoryAdapter
-    public lateinit var parentActivity: MainActivity
+    private lateinit var productAdapter: ProductAdapter
 
-    private val categoriesViewModel: CategoryListViewModel by viewModels()
-    private var binding: FragmentCategoryBinding? = null
-
-    private lateinit var navigateCategoryListener: NavigateCategoryListener
+    private val productsViewModel: CategoryDetailViewModel by viewModels()
+    private var binding: FragmentCategoryDetailBinding? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
 
         initView(view)
         subscribeUi()
@@ -66,38 +62,41 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     }
 
     private fun initView(rootView: View) {
-        val innerBinding = FragmentCategoryBinding.bind(rootView)
+        val innerBinding = FragmentCategoryDetailBinding.bind(rootView)
         this.binding = innerBinding
 
-        this.emptyTextView = innerBinding.categoryEmptyTextView
-        this.categoryRecyclerView = innerBinding.categoryRecycleView
+        this.emptyTextView = innerBinding.productEmptyTextView
+        this.productRecyclerView = innerBinding.productRecycleView
 
-        categoryAdapter = CategoryAdapter()
+        productAdapter = ProductAdapter()
 
-        parentActivity = (activity as MainActivity)
-        initListeners()
-
-        categoryAdapter.navigateAction = navigateCategoryListener::navigateShowCategory
-        categoryRecyclerView.adapter = categoryAdapter
+        productAdapter.navigateAction = this::navigateToProductDetail
+        productRecyclerView.adapter = productAdapter
     }
 
     private fun subscribeUi() {
-        categoriesViewModel.categories.observe(viewLifecycleOwner) { list: List<Category> ->
-            switchVisibility(list.isNotEmpty())
-            categoryAdapter.submitList(list)
+        productsViewModel.products.observe(viewLifecycleOwner) { products: List<Product> ->
+            switchVisibility(products.isNotEmpty())
+            productAdapter.submitList(products)
         }
     }
 
-    private fun initListeners() {
-        this.navigateCategoryListener = NavigateCategoryListener(this)
+    private fun navigateToProductDetail() {
+        val productId = productAdapter.getCurrentItemId()
+
+        if (productId != -1L) {
+            val direction = CategoryDetailFragmentDirections
+                .actionCategoryDetailFragmentToProductDetailFragment(productId)
+            findNavController().navigate(direction)
+        }
     }
 
     private fun switchVisibility(flag: Boolean) {
         if (flag) {
-            categoryRecyclerView.visibility = View.VISIBLE
+            productRecyclerView.visibility = View.VISIBLE
             emptyTextView.visibility = View.GONE
         } else {
-            categoryRecyclerView.visibility = View.GONE
+            productRecyclerView.visibility = View.GONE
             emptyTextView.visibility = View.VISIBLE
         }
     }

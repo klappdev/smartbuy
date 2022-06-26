@@ -30,13 +30,13 @@ import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 
 import org.kl.smartbuy.R
-import org.kl.smartbuy.ui.purchase.PurchaseFragment
+import org.kl.smartbuy.ui.purchase.PurchaseListFragment
 
 class SearchPurchaseListener(
-    private val purchaseFragment: PurchaseFragment
+    private val purchaseListFragment: PurchaseListFragment
 ) : View.OnClickListener, MenuItem.OnActionExpandListener, SearchView.OnQueryTextListener {
-    private val purchaseAdapter = purchaseFragment.purchaseAdapter
-    private val purchasesViewModel = purchaseFragment.purchasesViewModel
+    private val purchaseAdapter = purchaseListFragment.purchaseAdapter
+    private val purchasesViewModel = purchaseListFragment.purchasesViewModel
 
     private var searchView: SearchView? = null
     private var searchInput: TextView? = null
@@ -63,7 +63,7 @@ class SearchPurchaseListener(
     override fun onMenuItemActionExpand(view: MenuItem?): Boolean {
         if (searchView == null) {
             searchView = view?.actionView as SearchView
-            searchView?.queryHint = purchaseFragment.getString(R.string.search_hint)
+            searchView?.queryHint = purchaseListFragment.getString(R.string.search_hint)
             searchView?.setOnQueryTextListener(this)
 
             this.searchInput = searchView?.findViewById(androidx.appcompat.R.id.search_src_text)
@@ -76,7 +76,7 @@ class SearchPurchaseListener(
 
     override fun onMenuItemActionCollapse(view: MenuItem?): Boolean {
         purchaseAdapter.position = -1
-        purchaseFragment.notifyMenuItemSelected(false)
+        purchaseListFragment.notifyMenuItemSelected(false)
         refreshPurchases()
 
         return true

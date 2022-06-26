@@ -1,7 +1,7 @@
 /*
  * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
  * SPDX-License-Identifier: MIT
- * Copyright (c) 2020 - 2021 https://github.com/klappdev
+ * Copyright (c) 2020 - 2022 https://github.com/klappdev
  *
  * Permission is hereby  granted, free of charge, to any  person obtaining a copy
  * of this software and associated  documentation files (the "Software"), to deal
@@ -26,8 +26,8 @@ package org.kl.smartbuy.ui.tabs
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-import org.kl.smartbuy.ui.category.CategoryFragment
-import org.kl.smartbuy.ui.purchase.PurchaseFragment
+import org.kl.smartbuy.ui.category.CategoryListFragment
+import org.kl.smartbuy.ui.purchase.PurchaseListFragment
 
 const val CATEGORY_TAB = 0
 const val PURCHASE_TAB = 1
@@ -36,8 +36,8 @@ class TabPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            CATEGORY_TAB -> CategoryFragment()
-            PURCHASE_TAB -> PurchaseFragment()
+            CATEGORY_TAB -> CategoryListFragment()
+            PURCHASE_TAB -> PurchaseListFragment()
             else -> error("Unknown tab order")
         }
     }

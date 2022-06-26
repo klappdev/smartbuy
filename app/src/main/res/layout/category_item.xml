@@ -9,7 +9,7 @@
 	<data>
 		<variable
 			name="category"
-			type="org.kl.smartbuy.model.Category" />
+			type="org.kl.smartbuy.db.entity.Category" />
 	</data>
 
 	<androidx.cardview.widget.CardView

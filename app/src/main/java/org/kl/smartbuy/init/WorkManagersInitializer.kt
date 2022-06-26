@@ -1,7 +1,7 @@
 /*
  * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
  * SPDX-License-Identifier: MIT
- * Copyright (c) 2019 - 2021 https://github.com/klappdev
+ * Copyright (c) 2020 - 2022 https://github.com/klappdev
  *
  * Permission is hereby  granted, free of charge, to any  person obtaining a copy
  * of this software and associated  documentation files (the "Software"), to deal
@@ -27,11 +27,14 @@ import android.content.Context
 import androidx.startup.Initializer
 import androidx.work.Configuration
 import androidx.work.WorkManager
+import org.kl.smartbuy.BuildConfig
 
 class WorkManagersInitializer : Initializer<WorkManager> {
 
     override fun create(context: Context): WorkManager {
-        val configuration = Configuration.Builder().build()
+        val configuration = Configuration.Builder()
+            .setMinimumLoggingLevel(if (BuildConfig.DEBUG) android.util.Log.DEBUG else android.util.Log.ERROR)
+            .build()
         WorkManager.initialize(context, configuration)
 
         return WorkManager.getInstance(context)

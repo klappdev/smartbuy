@@ -4,8 +4,8 @@
     <string name="category_tab">Category</string>
     <string name="purchase_tab">Purchase</string>
 
-    <string name="show_product_title">Show Product</string>
-    <string name="show_category_title">Show Category</string>
+    <string name="product_detail_title">Product detail</string>
+    <string name="category_detail_title">Category detail</string>
     <string name="edit_purchase_title">Edit Purchase</string>
     <string name="view_purchase_title">View Purchase</string>
 
@@ -19,9 +19,11 @@
     <string name="sort_title">Sort</string>
     <string name="delete_title">Delete</string>
     <string name="edit_title">Edit</string>
+    <string name="add_title">Add</string>
     <string name="search_hint">Search …</string>
 
     <string name="name_hint">Name</string>
+    <string name="price_hint">Price</string>
     <string name="description_hint">Description</string>
     <string name="date_hint">hh/MM/yyyy</string>
 

@@ -1,7 +1,7 @@
 /*
  * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
  * SPDX-License-Identifier: MIT
- * Copyright (c) 2019 - 2021 https://github.com/klappdev
+ * Copyright (c) 2020 - 2022 https://github.com/klappdev
  *
  * Permission is hereby  granted, free of charge, to any  person obtaining a copy
  * of this software and associated  documentation files (the "Software"), to deal
@@ -26,8 +26,8 @@ package org.kl.smartbuy.init
 import android.content.Context
 import androidx.startup.Initializer
 
-import org.kl.smartbuy.BuildConfig
 import timber.log.Timber
+import org.kl.smartbuy.BuildConfig
 
 class TimberInitializer: Initializer<Unit> {
 

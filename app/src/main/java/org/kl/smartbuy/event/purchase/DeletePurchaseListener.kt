@@ -1,7 +1,7 @@
 /*
  * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
  * SPDX-License-Identifier: MIT
- * Copyright (c) 2020 - 2021 https://github.com/klappdev
+ * Copyright (c) 2020 - 2022 https://github.com/klappdev
  *
  * Permission is hereby  granted, free of charge, to any  person obtaining a copy
  * of this software and associated  documentation files (the "Software"), to deal
@@ -27,9 +27,9 @@ import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
 
 import org.kl.smartbuy.db.entity.Purchase
-import org.kl.smartbuy.ui.purchase.PurchaseFragment
+import org.kl.smartbuy.ui.purchase.PurchaseListFragment
 
-class DeletePurchaseListener(fragment: PurchaseFragment) {
+class DeletePurchaseListener(fragment: PurchaseListFragment) {
     private val activity = fragment.parentActivity
     private val purchaseAdapter = fragment.purchaseAdapter
     private val purchaseViewModel = fragment.purchasesViewModel

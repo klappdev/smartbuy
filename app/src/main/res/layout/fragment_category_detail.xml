@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -12,10 +12,10 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="org.kl.smartbuy.ui.category.CategoryFragment">
+    tools:context="org.kl.smartbuy.ui.category.CategoryDetailFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/category_recycle_view"
+        android:id="@+id/product_recycle_view"
         android:paddingTop="4dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,11 +27,10 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
 
-        tools:listitem="@layout/category_item"
-        tools:context="org.kl.smartbuy.ui.MainActivity" />
+        tools:listitem="@layout/product_item" />
 
     <TextView
-        android:id="@+id/category_empty_text_view"
+        android:id="@+id/product_empty_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -39,7 +38,7 @@
         android:layout_alignParentBottom="true"
 
         android:gravity="center"
-        android:text="@string/empty_categories"
+        android:text="@string/empty_products"
         android:visibility="gone"/>
 
 </RelativeLayout>

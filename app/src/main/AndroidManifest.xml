@@ -14,36 +14,29 @@
         android:theme="@style/Theme.Smartbuy"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".ui.product.ShowProductActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.Smartbuy.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.category.ShowCategoryActivity"
-            android:label="@string/show_category_title"></activity>
-        <activity
             android:name=".ui.purchase.EditPurchaseActivity"
-            android:label="@string/edit_purchase_title"></activity>
+            android:label="@string/edit_purchase_title">
+        </activity>
 
-        <provider
-            android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="${applicationId}.workmanager-init"
-            android:exported="false"
-            tools:node="remove" />
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
             tools:node="merge">
+
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
             <meta-data
                 android:name="org.kl.smartbuy.init.WorkManagersInitializer"
                 android:value="androidx.startup" />

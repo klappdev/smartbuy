@@ -1,7 +1,7 @@
 /*
  * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
  * SPDX-License-Identifier: MIT
- * Copyright (c) 2020 - 2021 https://github.com/klappdev
+ * Copyright (c) 2020 - 2022 https://github.com/klappdev
  *
  * Permission is hereby  granted, free of charge, to any  person obtaining a copy
  * of this software and associated  documentation files (the "Software"), to deal
@@ -27,13 +27,13 @@ import androidx.lifecycle.LiveData
 import javax.inject.Inject
 import javax.inject.Singleton
 
-import org.kl.smartbuy.db.dao.CategoryProductsDao
-import org.kl.smartbuy.db.entity.CategoryProducts
+import org.kl.smartbuy.db.dao.ProductDao
+import org.kl.smartbuy.db.entity.Product
 
 @Singleton
-class ProductRepository @Inject constructor(private val categoryProductsDao: CategoryProductsDao) {
+class ProductRepository @Inject constructor(private val productDao: ProductDao) {
 
-    fun getCategoryProducts(id: Long): LiveData<CategoryProducts> = categoryProductsDao.getById(id)
+    fun getProduct(id: Long): LiveData<Product> = productDao.getById(id)
 
-    fun getCategoriesProducts(): LiveData<List<CategoryProducts>> = categoryProductsDao.getAll()
+    fun getProducts(): LiveData<List<Product>> = productDao.getAll()
 }

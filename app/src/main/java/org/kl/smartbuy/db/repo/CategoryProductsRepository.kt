@@ -1,7 +1,7 @@
 /*
  * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
  * SPDX-License-Identifier: MIT
- * Copyright (c) 2020 - 2021 https://github.com/klappdev
+ * Copyright (c) 2020 - 2022 https://github.com/klappdev
  *
  * Permission is hereby  granted, free of charge, to any  person obtaining a copy
  * of this software and associated  documentation files (the "Software"), to deal
@@ -21,24 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.viewmodel
+package org.kl.smartbuy.db.repo
 
-import androidx.lifecycle.*
-
-import dagger.hilt.android.lifecycle.HiltViewModel
+import androidx.lifecycle.LiveData
 import javax.inject.Inject
+import javax.inject.Singleton
 
-import org.kl.smartbuy.db.repo.ProductRepository
+import org.kl.smartbuy.db.dao.CategoryProductsDao
 import org.kl.smartbuy.db.entity.CategoryProducts
-import org.kl.smartbuy.db.entity.Product
 
-@HiltViewModel
-class ProductListViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    productRepository: ProductRepository
-) : ViewModel() {
-    private val productId: Long = savedStateHandle.get<Long>("productId")!!
+@Singleton
+class CategoryProductsRepository @Inject constructor(private val categoryProductsDao: CategoryProductsDao) {
 
-    val products: LiveData<List<Product>> = productRepository.getCategoryProducts(productId)
-            .map(CategoryProducts::products)
+    fun getCategoryProducts(idCategory: Long): LiveData<CategoryProducts> {
+        return categoryProductsDao.getById(idCategory)
+    }
+
+    fun getCategoriesProducts(): LiveData<List<CategoryProducts>> {
+        return categoryProductsDao.getAll()
+    }
 }

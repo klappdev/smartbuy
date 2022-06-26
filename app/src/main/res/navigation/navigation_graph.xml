@@ -2,21 +2,22 @@
 <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/view_pager_fragment"
-    android:id="@+id/navigation_purchase">
+
+    android:id="@+id/navigation_purchase"
+    app:startDestination="@id/view_pager_fragment">
+
 
     <fragment
         android:id="@+id/view_pager_fragment"
         android:name="org.kl.smartbuy.ui.tabs.TabPagerFragment">
-
         <action
             android:id="@+id/action_tab_pager_fragment_to_edit_purchase_activity"
             app:destination="@id/edit_purchase_activity" />
 
         <action
-            android:id="@+id/action_tab_pager_fragment_to_show_category_activity"
-            app:destination="@id/show_category_activity" />
+            android:id="@+id/action_tab_pager_fragment_to_category_detail_fragment"
+            app:destination="@id/category_detail_fragment">
+        </action>
 
     </fragment>
 
@@ -31,30 +32,29 @@
             android:defaultValue="0L"/>
     </activity>
 
-    <activity
-        android:id="@+id/show_category_activity"
-        android:name="org.kl.smartbuy.ui.category.ShowCategoryActivity"
-        android:label="@string/show_category_title"
-        tools:layout="@layout/activity_show_category">
+    <fragment
+        android:id="@+id/category_detail_fragment"
+        android:name="org.kl.smartbuy.ui.category.CategoryDetailFragment"
+        android:label="@string/category_detail_title">
+        <argument
+            android:name="categoryId"
+            android:defaultValue="0L"
+            app:argType="long" />
+
+        <action
+            android:id="@+id/action_category_detail_fragment_to_product_detail_fragment"
+            app:destination="@id/product_detail_fragment">
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/product_detail_fragment"
+        android:name="org.kl.smartbuy.ui.product.ProductDetailFragment"
+        android:label="@string/product_detail_title">
 
         <argument
             android:name="productId"
-            app:argType="long"
-            android:defaultValue="0L"/>
-
-
-    </activity>
-
-    <activity
-        android:id="@+id/show_product_activity"
-        android:name="org.kl.smartbuy.ui.product.ShowProductActivity"
-        android:label="@string/show_product_title"
-        tools:layout="@layout/activity_show_product">
-
-        <argument
-            android:name="productId"
-            app:argType="long"
-            android:defaultValue="0L"/>
-    </activity>
-
+            android:defaultValue="0L"
+            app:argType="long" />
+    </fragment>
 </navigation>

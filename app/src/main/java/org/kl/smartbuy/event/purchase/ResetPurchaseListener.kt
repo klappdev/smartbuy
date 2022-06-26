@@ -23,12 +23,12 @@
  */
 package org.kl.smartbuy.event.purchase
 
-import org.kl.smartbuy.ui.purchase.PurchaseFragment
+import org.kl.smartbuy.ui.purchase.PurchaseListFragment
 
-class ResetPurchaseListener(private val purchaseFragment: PurchaseFragment) {
+class ResetPurchaseListener(private val purchaseListFragment: PurchaseListFragment) {
 
     operator fun invoke(): Boolean {
-        with(purchaseFragment) {
+        with(purchaseListFragment) {
             purchaseAdapter.position = -1
             purchaseAdapter.notifyDataSetChanged()
             notifyMenuItemSelected(false)
