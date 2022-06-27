@@ -24,80 +24,43 @@
 package org.kl.smartbuy.ui.category
 
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
+import android.view.LayoutInflater
+import android.view.ViewGroup
 
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.composethemeadapter.MdcTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-import org.kl.smartbuy.R
 import org.kl.smartbuy.db.entity.Category
-import org.kl.smartbuy.viewmodel.CategoryListViewModel
-import org.kl.smartbuy.databinding.FragmentCategoryListBinding
 import org.kl.smartbuy.ui.tabs.TabPagerFragmentDirections
 
 @AndroidEntryPoint
-class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
-    private lateinit var emptyTextView: TextView
-    private lateinit var categoryRecyclerView: RecyclerView
+class CategoryListFragment : Fragment() {
 
-    private lateinit var categoryAdapter: CategoryAdapter
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) = ComposeView(requireContext()).apply {
+        setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
 
-    private val categoriesViewModel: CategoryListViewModel by viewModels()
-    private var binding: FragmentCategoryListBinding? = null
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
-
-        initView(view)
-        subscribeUi()
-    }
-
-    override fun onDestroyView() {
-        this.binding = null
-        super.onDestroyView()
-    }
-
-    private fun initView(rootView: View) {
-        val innerBinding = FragmentCategoryListBinding.bind(rootView)
-        this.binding = innerBinding
-
-        this.emptyTextView = innerBinding.categoryEmptyTextView
-        this.categoryRecyclerView = innerBinding.categoryRecycleView
-
-        categoryAdapter = CategoryAdapter()
-        categoryAdapter.navigateAction = this::navigateToCategoryDetail
-        categoryRecyclerView.adapter = categoryAdapter
-    }
-
-    private fun subscribeUi() {
-        categoriesViewModel.categories.observe(viewLifecycleOwner) { list: List<Category> ->
-            switchVisibility(list.isNotEmpty())
-            categoryAdapter.submitList(list)
+        setContent {
+            MdcTheme {
+                CategoryListScreen(::navigateToCategoryDetail)
+            }
         }
     }
 
-    private fun navigateToCategoryDetail() {
-        val categoryId = categoryAdapter.getCurrentItemId()
+    private fun navigateToCategoryDetail(category: Category) {
+        val categoryId = category.id
 
         if (categoryId != -1L) {
             val direction = TabPagerFragmentDirections
                 .actionTabPagerFragmentToCategoryDetailFragment(categoryId)
             findNavController().navigate(direction)
-        }
-    }
-
-    private fun switchVisibility(flag: Boolean) {
-        if (flag) {
-            categoryRecyclerView.visibility = View.VISIBLE
-            emptyTextView.visibility = View.GONE
-        } else {
-            categoryRecyclerView.visibility = View.GONE
-            emptyTextView.visibility = View.VISIBLE
         }
     }
 }

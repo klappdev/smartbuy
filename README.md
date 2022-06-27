@@ -36,7 +36,7 @@ Used Android libraries:
 Used third party libraries:
 --------------------------
   * Timber
-  * Glide
+  * Coil
   * Hilt 
   * Kotlin Coroutines
   

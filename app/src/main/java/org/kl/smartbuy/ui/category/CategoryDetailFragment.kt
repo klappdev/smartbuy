@@ -24,80 +24,43 @@
 package org.kl.smartbuy.ui.category
 
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
+import android.view.LayoutInflater
+import android.view.ViewGroup
 
-import androidx.fragment.app.viewModels
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
+
+import com.google.android.material.composethemeadapter.MdcTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-import org.kl.smartbuy.R
-import org.kl.smartbuy.databinding.FragmentCategoryDetailBinding
 import org.kl.smartbuy.db.entity.Product
-import org.kl.smartbuy.ui.product.ProductAdapter
-import org.kl.smartbuy.viewmodel.CategoryDetailViewModel
 
 @AndroidEntryPoint
-class CategoryDetailFragment : Fragment(R.layout.fragment_category_detail) {
-    private lateinit var emptyTextView: TextView
-    private lateinit var productRecyclerView: RecyclerView
+class CategoryDetailFragment : Fragment() {
 
-    private lateinit var productAdapter: ProductAdapter
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) = ComposeView(requireContext()).apply {
+        setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
 
-    private val productsViewModel: CategoryDetailViewModel by viewModels()
-    private var binding: FragmentCategoryDetailBinding? = null
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        initView(view)
-        subscribeUi()
-    }
-
-    override fun onDestroyView() {
-        this.binding = null
-        super.onDestroyView()
-    }
-
-    private fun initView(rootView: View) {
-        val innerBinding = FragmentCategoryDetailBinding.bind(rootView)
-        this.binding = innerBinding
-
-        this.emptyTextView = innerBinding.productEmptyTextView
-        this.productRecyclerView = innerBinding.productRecycleView
-
-        productAdapter = ProductAdapter()
-
-        productAdapter.navigateAction = this::navigateToProductDetail
-        productRecyclerView.adapter = productAdapter
-    }
-
-    private fun subscribeUi() {
-        productsViewModel.products.observe(viewLifecycleOwner) { products: List<Product> ->
-            switchVisibility(products.isNotEmpty())
-            productAdapter.submitList(products)
+        setContent {
+            MdcTheme {
+                CategoryDetailAppBar(::navigateToProductDetail)
+            }
         }
     }
 
-    private fun navigateToProductDetail() {
-        val productId = productAdapter.getCurrentItemId()
+    private fun navigateToProductDetail(product: Product) {
+        val productId = product.id
 
         if (productId != -1L) {
             val direction = CategoryDetailFragmentDirections
                 .actionCategoryDetailFragmentToProductDetailFragment(productId)
             findNavController().navigate(direction)
-        }
-    }
-
-    private fun switchVisibility(flag: Boolean) {
-        if (flag) {
-            productRecyclerView.visibility = View.VISIBLE
-            emptyTextView.visibility = View.GONE
-        } else {
-            productRecyclerView.visibility = View.GONE
-            emptyTextView.visibility = View.VISIBLE
         }
     }
 }

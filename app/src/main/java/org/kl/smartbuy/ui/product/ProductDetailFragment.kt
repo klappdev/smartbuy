@@ -27,38 +27,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.*
-import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 import com.google.android.material.composethemeadapter.MdcTheme
 import dagger.hilt.android.AndroidEntryPoint
-
-import coil.compose.AsyncImagePainter
-import coil.request.ImageRequest
-import coil.compose.rememberAsyncImagePainter
-import org.kl.smartbuy.R
-
-import org.kl.smartbuy.db.entity.Product
-import org.kl.smartbuy.util.toast
-import org.kl.smartbuy.viewmodel.ProductDetailViewModel
 
 @AndroidEntryPoint
 class ProductDetailFragment : Fragment() {
@@ -73,124 +47,6 @@ class ProductDetailFragment : Fragment() {
         setContent {
             MdcTheme {
                 ProductDetailScreen()
-            }
-        }
-    }
-
-    @Composable
-    private fun ProductDetailScreen(viewModel: ProductDetailViewModel = viewModel()) {
-        val product by viewModel.product.observeAsState()
-
-        LazyColumn(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            item { ImageProductView(product) }
-            item { NameProductView(product) }
-            item { PriceProductView(product) }
-            item { RangeProductView(product) }
-            item { SubmitProductView(product) }
-        }
-    }
-
-    @Composable
-    private fun ImageProductView(product: Product?) {
-        val painter = rememberAsyncImagePainter(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(product?.iconUrl)
-                .error(android.R.drawable.ic_menu_report_image)
-                .crossfade(true)
-                .build()
-        )
-
-        Image(
-            painter = painter,
-            contentScale = ContentScale.Crop,
-            contentDescription = product?.name,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(280.dp)
-                .padding(PaddingValues(16.dp))
-        )
-
-
-//        if (painter.state is AsyncImagePainter.State.Error ||
-//            painter.state is AsyncImagePainter.State.Empty) {
-//            Image(
-//                painter = painterResource(android.R.drawable.ic_menu_report_image),
-//                contentScale = ContentScale.Crop,
-//                contentDescription = product?.name,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .height(256.dp)
-//                    .padding(PaddingValues(16.dp))
-//            )
-//        }
-    }
-
-    @Composable
-    private fun NameProductView(product: Product?) {
-        OutlinedTextField(
-            value = product?.name ?: "<no name>",
-            onValueChange = { },
-            readOnly = true,
-            label = { Text(stringResource(R.string.name_hint)) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(PaddingValues(16.dp, 8.dp, 16.dp, 8.dp))
-                .background(color = Color.White)
-        )
-    }
-
-    @Composable
-    private fun PriceProductView(product: Product?) {
-        OutlinedTextField(
-            value = product?.price.toString(),
-            onValueChange = { },
-            readOnly = true,
-            label = { Text(stringResource(R.string.price_hint)) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(PaddingValues(16.dp, 8.dp, 16.dp, 8.dp))
-                .background(color = Color.White)
-        )
-    }
-
-    @Composable
-    private fun RangeProductView(product: Product?) {
-        OutlinedTextField(
-            value = product?.range.toString(),
-            onValueChange = { },
-            readOnly = true,
-            label = { Text(product?.measure ?: "") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(PaddingValues(16.dp, 8.dp, 16.dp, 8.dp))
-                .background(color = Color.White)
-        )
-    }
-
-    @Composable
-    private fun SubmitProductView(product: Product?) {
-        val context = LocalContext.current
-
-        Row(
-            verticalAlignment = Alignment.Top,
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Button(
-                onClick = {
-                    context.toast("Product ${product?.name} was added")
-                },
-                colors = ButtonDefaults.buttonColors(colorResource(R.color.primary_color)),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(64.dp)
-                    .padding(PaddingValues(16.dp, 8.dp, 16.dp, 8.dp))
-            ) {
-                Text(text = stringResource(R.string.add_title), color = Color.White)
             }
         }
     }
