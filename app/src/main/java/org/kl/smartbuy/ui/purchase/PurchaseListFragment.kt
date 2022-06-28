@@ -24,37 +24,28 @@
 package org.kl.smartbuy.ui.purchase
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.widget.TextView
+import android.view.*
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
-import androidx.paging.PagingData
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.composethemeadapter.MdcTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 import org.kl.smartbuy.R
 import org.kl.smartbuy.db.entity.Purchase
 import org.kl.smartbuy.ui.MainActivity
 import org.kl.smartbuy.viewmodel.PurchaseListViewModel
-import org.kl.smartbuy.databinding.FragmentPurchaseListBinding
 import org.kl.smartbuy.event.purchase.*
 import org.kl.smartbuy.ui.tabs.TabPagerFragmentDirections
 
 @AndroidEntryPoint
-class PurchaseListFragment : Fragment(R.layout.fragment_purchase_list) {
-    private lateinit var emptyTextView: TextView
-    private lateinit var purchaseRecycleView: RecyclerView
-
-    public lateinit var purchaseAdapter: PurchaseAdapter
+class PurchaseListFragment : Fragment() {
     public lateinit var parentActivity: MainActivity
-
+    public lateinit var purchaseAdapter: PurchaseAdapter
     public val purchasesViewModel: PurchaseListViewModel by viewModels()
-    private var binding: FragmentPurchaseListBinding? = null
 
     public lateinit var sortPurchaseListener: SortPurchaseListener
     public lateinit var deletePurchaseListener: DeletePurchaseListener
@@ -63,19 +54,21 @@ class PurchaseListFragment : Fragment(R.layout.fragment_purchase_list) {
     private var searchMenuItem: MenuItem? = null
     private var menuItemSelected: Boolean = false
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) = ComposeView(requireContext()).apply {
+        setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
 
-        //initPurchases()
-        initView(view)
+        /*initPurchases()*/
+        /*initListeners()*/
 
-        subscribeUi()
-    }
-
-    override fun onDestroyView() {
-        this.binding = null
-        super.onDestroyView()
+        setContent {
+            MdcTheme {
+                PurchaseListScreen(purchasesViewModel)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -103,29 +96,6 @@ class PurchaseListFragment : Fragment(R.layout.fragment_purchase_list) {
         menu.findItem(R.id.action_delete)?.isVisible = menuItemSelected
     }
 
-    private fun initView(rootView: View) {
-        val innerBinding = FragmentPurchaseListBinding.bind(rootView)
-        this.binding = innerBinding
-
-        this.emptyTextView = innerBinding.purchaseEmptyTextView
-        this.purchaseRecycleView = innerBinding.purchaseRecycleView
-
-        purchaseAdapter = PurchaseAdapter()
-
-        parentActivity = (activity as MainActivity)
-        initListeners()
-
-        purchaseAdapter.notifyAction = ::notifyMenuItemSelected
-        purchaseRecycleView.adapter = purchaseAdapter
-    }
-
-    private fun subscribeUi() {
-        purchasesViewModel.getPurchases { data ->
-            switchVisibility(data != PagingData.empty<Purchase>())
-            purchaseAdapter.submitData(data)
-        }
-    }
-
     private fun initListeners() {
         this.sortPurchaseListener = SortPurchaseListener(this)
         this.deletePurchaseListener = DeletePurchaseListener(this)
@@ -139,16 +109,6 @@ class PurchaseListFragment : Fragment(R.layout.fragment_purchase_list) {
         parentActivity.invalidateOptionsMenu()
 
         return true
-    }
-
-    private fun switchVisibility(flag: Boolean) {
-        if (flag) {
-            purchaseRecycleView.visibility = View.VISIBLE
-            emptyTextView.visibility = View.GONE
-        } else {
-            purchaseRecycleView.visibility = View.GONE
-            emptyTextView.visibility = View.VISIBLE
-        }
     }
 
     private fun navigateToEditPurchase(): Boolean {

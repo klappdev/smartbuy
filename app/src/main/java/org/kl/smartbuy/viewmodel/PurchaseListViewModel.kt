@@ -42,7 +42,9 @@ class PurchaseListViewModel @Inject constructor(
     private val purchaseRepository: PurchaseRepository
 ) : ViewModel() {
     private var isAsc: Boolean = false
-    private var purchases: Flow<PagingData<Purchase>>? = null
+    private var _purchases: Flow<PagingData<Purchase>>? = null
+
+    public val purchases get() = purchaseRepository.getPurchases().cachedIn(viewModelScope)
 
     fun addPurchases(listPurchases: List<Purchase>) {
         viewModelScope.launch {
@@ -59,7 +61,7 @@ class PurchaseListViewModel @Inject constructor(
     fun getPurchases(action: suspend (PagingData<Purchase>) -> Unit) {
         val result = purchaseRepository.getPurchases().cachedIn(viewModelScope)
 
-        purchases = result
+        _purchases = result
 
         viewModelScope.launch {
             result.collectLatest { data ->
@@ -72,7 +74,7 @@ class PurchaseListViewModel @Inject constructor(
         val result = purchaseRepository.sortByDatePurchases(isAsc).cachedIn(viewModelScope)
 
         isAsc = !isAsc
-        purchases = result
+        _purchases = result
 
         viewModelScope.launch {
             result.collectLatest { data ->
@@ -84,7 +86,7 @@ class PurchaseListViewModel @Inject constructor(
     fun searchPurchases(text: String, action: suspend (PagingData<Purchase>) -> Unit) {
         val result = purchaseRepository.searchByNamePurchases("%$text%").cachedIn(viewModelScope)
 
-        purchases = result
+        _purchases = result
 
         viewModelScope.launch {
             result.collectLatest { data ->
