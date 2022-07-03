@@ -21,117 +21,108 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.ui.product
+package org.kl.smartbuy.ui.purchase
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-
-import coil.request.ImageRequest
-import coil.compose.rememberAsyncImagePainter
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 import org.kl.smartbuy.R
-import org.kl.smartbuy.db.entity.Product
 import org.kl.smartbuy.util.toast
-import org.kl.smartbuy.viewmodel.ProductDetailViewModel
+import org.kl.smartbuy.viewmodel.PurchaseDetailViewModel
 
+/*@Preview*/
 @Composable
-fun ProductDetailScreen(
-    viewModel: ProductDetailViewModel,
-    productId: Long
-) {
-    val product by viewModel.getProduct(productId).observeAsState()
+fun EditPurchaseScreen(viewModel: PurchaseDetailViewModel = viewModel()) {
+    val name by viewModel.name.collectAsState()
+    val date by viewModel.date.collectAsState()
 
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top,
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxWidth()
     ) {
-        item { ImageProductView(product) }
-        item { NameProductView(product) }
-        item { PriceProductView(product) }
-        item { RangeProductView(product) }
-        item { SubmitProductView(product) }
+        item { ImagePurchaseView() }
+        item { NamePurchaseView(name, viewModel::onNameChange) }
+        item { DatePurchaseView(date, viewModel::onDateChange) }
+        item { SubmitPurchaseView(viewModel) }
     }
 }
 
 @Composable
-private fun ImageProductView(product: Product?) {
-    val painter = rememberAsyncImagePainter(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(product?.iconUrl)
-            .error(android.R.drawable.ic_menu_report_image)
-            .crossfade(true)
-            .build()
-    )
-
+private fun ImagePurchaseView() {
     Image(
-        painter = painter,
-        contentScale = ContentScale.Crop,
-        contentDescription = product?.name,
+        painter = painterResource(R.drawable.purchase_icon),
+        contentDescription = stringResource(R.string.purchase_name),
         modifier = Modifier
             .fillMaxWidth()
-            .height(280.dp)
+            .height(128.dp)
             .padding(PaddingValues(16.dp))
     )
 }
 
 @Composable
-private fun NameProductView(product: Product?) {
-    OutlinedTextField(
-        value = product?.name ?: "<no name>",
-        onValueChange = { },
-        readOnly = true,
-        label = { Text(stringResource(R.string.name_hint)) },
+private fun NamePurchaseView(name: String, onNameChange: (String) -> Unit) {
+    val nameValid = name matches "^[a-zA-Z0-9]+".toRegex()
+
+    TextField(
+        value = name,
+        onValueChange = onNameChange,
+        label = {
+            if (nameValid) {
+                Text(stringResource(R.string.name_hint))
+            } else {
+                Text(stringResource(R.string.name_value_error))
+            }
+        },
+        isError = !nameValid,
         modifier = Modifier
             .fillMaxWidth()
             .padding(PaddingValues(16.dp, 8.dp, 16.dp, 8.dp))
-            .background(color = Color.White)
     )
 }
 
 @Composable
-private fun PriceProductView(product: Product?) {
-    OutlinedTextField(
-        value = product?.price.toString(),
-        onValueChange = { },
-        readOnly = true,
-        label = { Text(stringResource(R.string.price_hint)) },
+private fun DatePurchaseView(date: String, onDateChange: (String) -> Unit) {
+    TextField(
+        value = date,
+        onValueChange = onDateChange,
+        label = {
+            if (date.isEmpty()) {
+                Text(stringResource(R.string.date_value_error))
+            } else {
+                Text(stringResource(R.string.date_hint))
+            }
+        },
+        trailingIcon = {
+            Icon(imageVector = Icons.Filled.DateRange, contentDescription = "")
+            /*SelectDatePurchaseListener(this)*/
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        isError = date.isEmpty(),
         modifier = Modifier
             .fillMaxWidth()
             .padding(PaddingValues(16.dp, 8.dp, 16.dp, 8.dp))
-            .background(color = Color.White)
     )
 }
 
 @Composable
-private fun RangeProductView(product: Product?) {
-    OutlinedTextField(
-        value = product?.range.toString(),
-        onValueChange = { },
-        readOnly = true,
-        label = { Text(product?.measure ?: "<no unit>") },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(PaddingValues(16.dp, 8.dp, 16.dp, 8.dp))
-            .background(color = Color.White)
-    )
-}
-
-@Composable
-private fun SubmitProductView(product: Product?) {
+private fun SubmitPurchaseView(viewModel: PurchaseDetailViewModel) {
     val context = LocalContext.current
 
     Row(
@@ -141,15 +132,16 @@ private fun SubmitProductView(product: Product?) {
     ) {
         Button(
             onClick = {
-                context.toast("Product ${product?.name} was added")
+                viewModel.storePurchase()
+                context.toast("Purchase ${viewModel.name.value} was updated")
             },
             colors = ButtonDefaults.buttonColors(colorResource(R.color.primary_color)),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(64.dp)
-                .padding(PaddingValues(16.dp, 8.dp, 16.dp, 8.dp))
+                .padding(PaddingValues(32.dp, 8.dp, 32.dp, 8.dp))
         ) {
-            Text(text = stringResource(R.string.add_title), color = Color.White)
+            Text(text = stringResource(R.string.edit_title), color = Color.White)
         }
     }
 }

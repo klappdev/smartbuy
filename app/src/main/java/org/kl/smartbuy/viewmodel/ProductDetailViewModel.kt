@@ -24,7 +24,6 @@
 package org.kl.smartbuy.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,10 +34,10 @@ import org.kl.smartbuy.db.repo.ProductRepository
 
 @HiltViewModel
 class ProductDetailViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    productRepository: ProductRepository
+    private val productRepository: ProductRepository
 ) : ViewModel() {
-    private val productId: Long = savedStateHandle.get<Long>("productId")!!
 
-    val product: LiveData<Product> = productRepository.getProduct(productId)
+    fun getProduct(productId: Long): LiveData<Product> {
+        return productRepository.getProduct(productId)
+    }
 }

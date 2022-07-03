@@ -27,9 +27,9 @@ import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
 
 import org.kl.smartbuy.db.entity.Purchase
-import org.kl.smartbuy.ui.purchase.PurchaseListFragment
 
-class DeletePurchaseListener(fragment: PurchaseListFragment) {
+class DeletePurchaseListener(/*fragment: PurchaseListFragment*/) {
+    /*
     private val activity = fragment.parentActivity
     private val purchaseAdapter = fragment.purchaseAdapter
     private val purchaseViewModel = fragment.purchasesViewModel
@@ -58,4 +58,5 @@ class DeletePurchaseListener(fragment: PurchaseListFragment) {
     private fun negativeAction(dialog: DialogInterface, value: Int) {
         dialog.cancel()
     }
+    */
 }

@@ -1,7 +1,7 @@
 /*
  * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
  * SPDX-License-Identifier: MIT
- * Copyright (c) 2020 - 2021 https://github.com/klappdev
+ * Copyright (c) 2020 - 2022 https://github.com/klappdev
  *
  * Permission is hereby  granted, free of charge, to any  person obtaining a copy
  * of this software and associated  documentation files (the "Software"), to deal
@@ -21,31 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.ui.purchase
+package org.kl.smartbuy.ui.common
 
-import timber.log.Timber
-import androidx.recyclerview.widget.RecyclerView
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 
-import org.kl.smartbuy.R
-import org.kl.smartbuy.databinding.PurchaseItemBinding
-import org.kl.smartbuy.db.entity.Purchase
+@Composable
+fun CenterScreenText(text: String) {
+    val configuration = LocalConfiguration.current
+    val screenHeight = configuration.screenHeightDp.dp
 
-class PurchaseViewHolder(
-    val binding: PurchaseItemBinding
-) : RecyclerView.ViewHolder(binding.root) {
-
-    fun bind(item: Purchase, currentId: Long) {
-        if (item.id == currentId) {
-            binding.itemPurchaseImage.setImageResource(R.drawable.purchase_selected_icon)
-            Timber.d("Purchase selected")
-        } else {
-            binding.itemPurchaseImage.setImageResource(R.drawable.purchase_icon)
-            Timber.d("Purchase not selected")
-        }
-		
-        with(binding) {
-            purchase = item
-            executePendingBindings()
-        }
-    }
+    Text(text = text,
+        textAlign = TextAlign.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = screenHeight / 2)
+    )
 }
+

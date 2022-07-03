@@ -31,7 +31,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,40 +39,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 
 import org.kl.smartbuy.R
 import org.kl.smartbuy.db.entity.Product
+import org.kl.smartbuy.ui.common.CenterScreenText
 import org.kl.smartbuy.viewmodel.CategoryDetailViewModel
 
 @Composable
-fun CategoryDetailAppBar(onNavigate: (Product) -> Unit) {
-    Column {
-        TopAppBar(
-            elevation = dimensionResource(R.dimen.appbar_elevation),
-            title = { Text(stringResource(R.string.category_detail_title)) },
-            backgroundColor = colorResource(R.color.primary_color)
-        )
-
-        CategoryDetailScreen(onNavigate)
-    }
-}
-
-@Composable
-private fun CategoryDetailScreen(
-    onNavigate: (Product) -> Unit,
-    viewModel: CategoryDetailViewModel = viewModel()
+fun CategoryDetailScreen(
+    navigationController: NavHostController,
+    viewModel: CategoryDetailViewModel,
+    categoryId: Long
 ) {
-    val products: List<Product>? by viewModel.products.observeAsState()
+    val products: List<Product>? by viewModel.getProducts(categoryId).observeAsState()
 
     if (!products.isNullOrEmpty()) {
         LazyVerticalGrid(
@@ -83,27 +70,24 @@ private fun CategoryDetailScreen(
             modifier = Modifier.padding(top = 16.dp)
         ) {
             items(products!!) { product ->
-                ProductCard(product) {
-                    onNavigate(product)
-                }
+                ProductCard(navigationController, product)
             }
         }
     } else {
-        Text(text = stringResource(R.string.empty_products),
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentWidth(Alignment.CenterHorizontally)
-                .wrapContentHeight(Alignment.CenterVertically)
-        )
+        CenterScreenText(stringResource(R.string.empty_products))
     }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun ProductCard(product: Product, onNavigate: () -> Unit) {
+private fun ProductCard(
+    navigationController: NavHostController,
+    product: Product
+) {
     Card(
-        onClick = onNavigate,
+        onClick = {
+            navigationController.navigate("productDetail/${product.id}")
+        },
         elevation = dimensionResource(R.dimen.card_elevation),
         shape = RoundedCornerShape(
             topStart = 0.dp,

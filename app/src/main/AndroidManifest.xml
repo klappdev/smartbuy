@@ -22,10 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.purchase.EditPurchaseActivity"
-            android:label="@string/edit_purchase_title">
-        </activity>
 
         <provider
             android:name="androidx.startup.InitializationProvider"

@@ -1,7 +1,7 @@
 /*
  * Licensed under the MIT License <http://opensource.org/licenses/MIT>.
  * SPDX-License-Identifier: MIT
- * Copyright (c) 2020 - 2021 https://github.com/klappdev
+ * Copyright (c) 2020 - 2022 https://github.com/klappdev
  *
  * Permission is hereby  granted, free of charge, to any  person obtaining a copy
  * of this software and associated  documentation files (the "Software"), to deal
@@ -23,25 +23,26 @@
  */
 package org.kl.smartbuy.event.purchase
 
-import java.util.*
 import android.app.DatePickerDialog
 import android.view.View
 import android.widget.DatePicker
 
-import org.kl.smartbuy.ui.purchase.EditPurchaseActivity
+import java.util.*
 import java.text.SimpleDateFormat
 
 class SelectDatePurchaseListener(
-    private val activity: EditPurchaseActivity
+    /* private val activity: EditPurchaseActivity */
 ) : View.OnClickListener, DatePickerDialog.OnDateSetListener {
     private val calendar = GregorianCalendar.getInstance()
 
     override fun onClick(view: View?) {
+        /*
         DatePickerDialog(activity, this,
             calendar[Calendar.YEAR],
             calendar[Calendar.MONTH],
             calendar[Calendar.DAY_OF_MONTH]
         ).show()
+        */
     }
 
     override fun onDateSet(picker: DatePicker?, year: Int, month: Int, day: Int) {

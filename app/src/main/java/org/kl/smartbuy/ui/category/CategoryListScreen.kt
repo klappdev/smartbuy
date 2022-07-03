@@ -44,19 +44,20 @@ import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 
 import org.kl.smartbuy.R
 import org.kl.smartbuy.db.entity.Category
+import org.kl.smartbuy.ui.common.CenterScreenText
 import org.kl.smartbuy.viewmodel.CategoryListViewModel
 
 @Composable
 fun CategoryListScreen(
-    onNavigate: (Category) -> Unit,
-    viewModel: CategoryListViewModel = viewModel()
+    navigationController: NavHostController,
+    viewModel: CategoryListViewModel
 ) {
     val categories: List<Category>? by viewModel.categories.observeAsState()
 
@@ -68,27 +69,24 @@ fun CategoryListScreen(
             modifier = Modifier.padding(top = 16.dp)
         ) {
             items(categories!!) { category ->
-                CategoryCard(category) {
-                    onNavigate(category)
-                }
+                CategoryCard(navigationController, category)
             }
         }
     } else {
-        Text(text = stringResource(R.string.empty_categories),
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentWidth(Alignment.CenterHorizontally)
-                .wrapContentHeight(Alignment.CenterVertically)
-        )
+        CenterScreenText(stringResource(R.string.empty_categories))
     }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun CategoryCard(category: Category, onNavigate: () -> Unit) {
+private fun CategoryCard(
+    navigationController: NavHostController,
+    category: Category
+) {
     Card(
-        onClick = onNavigate,
+        onClick = {
+            navigationController.navigate("categoryDetail/${category.id}")
+        },
         elevation = dimensionResource(R.dimen.card_elevation),
         shape = RoundedCornerShape(
             topStart = 0.dp,

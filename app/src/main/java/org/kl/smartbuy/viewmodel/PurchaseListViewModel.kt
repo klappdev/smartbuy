@@ -44,7 +44,8 @@ class PurchaseListViewModel @Inject constructor(
     private var isAsc: Boolean = false
     private var _purchases: Flow<PagingData<Purchase>>? = null
 
-    public val purchases get() = purchaseRepository.getPurchases().cachedIn(viewModelScope)
+    public val purchases
+        get() = purchaseRepository.getPurchases().cachedIn(viewModelScope)
 
     fun addPurchases(listPurchases: List<Purchase>) {
         viewModelScope.launch {

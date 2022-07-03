@@ -24,20 +24,20 @@
 package org.kl.smartbuy.event.purchase
 
 import android.view.View
-import org.kl.smartbuy.ui.purchase.PurchaseAdapter
-import org.kl.smartbuy.ui.purchase.PurchaseViewHolder
 
 class ChoosePurchaseListener(
-    private val purchaseViewHolder: PurchaseViewHolder
+    /*private val purchaseViewHolder: PurchaseViewHolder*/
 ) : View.OnLongClickListener {
 
     override fun onLongClick(view: View?): Boolean {
+        /*
         val purchaseAdapter = purchaseViewHolder.bindingAdapter as PurchaseAdapter
 
         purchaseAdapter.position = purchaseViewHolder.absoluteAdapterPosition
         purchaseAdapter.notifyDataSetChanged()
 
         purchaseAdapter.notifyAction?.invoke(true)
+        */
         return true
     }
 }

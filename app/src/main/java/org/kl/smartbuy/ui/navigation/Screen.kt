@@ -21,26 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kl.smartbuy.ui.tabs
+package org.kl.smartbuy.ui.navigation
 
-import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.annotation.StringRes
 
-import org.kl.smartbuy.ui.category.CategoryListFragment
-import org.kl.smartbuy.ui.purchase.PurchaseListFragment
+import org.kl.smartbuy.R
 
-const val CATEGORY_TAB = 0
-const val PURCHASE_TAB = 1
+sealed class Screen(val route: String, @StringRes val resourceId: Int) {
+    object Category : Screen("category", R.string.category_title)
+    object Purchase : Screen("purchase", R.string.purchase_title)
 
-class TabPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-
-    override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            CATEGORY_TAB -> CategoryListFragment()
-            PURCHASE_TAB -> PurchaseListFragment()
-            else -> error("Unknown tab order")
-        }
+    companion object {
+        @JvmStatic
+        val items = arrayOf(Category, Purchase)
     }
-
-    override fun getItemCount() = 2
 }

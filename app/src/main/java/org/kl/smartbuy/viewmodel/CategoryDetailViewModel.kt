@@ -34,11 +34,11 @@ import org.kl.smartbuy.db.entity.Product
 
 @HiltViewModel
 class CategoryDetailViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    categoryProductsRepository: CategoryProductsRepository
+    private val categoryProductsRepository: CategoryProductsRepository
 ) : ViewModel() {
-    private val categoryId: Long = savedStateHandle.get<Long>("categoryId")!!
 
-    val products: LiveData<List<Product>> = categoryProductsRepository.getCategoryProducts(categoryId)
+    fun getProducts(categoryId: Long): LiveData<List<Product>> {
+        return categoryProductsRepository.getCategoryProducts(categoryId)
             .map(CategoryProducts::products)
+    }
 }

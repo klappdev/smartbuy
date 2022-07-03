@@ -38,30 +38,38 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 
 import org.kl.smartbuy.R
 import org.kl.smartbuy.db.entity.Purchase
+import org.kl.smartbuy.ui.common.CenterScreenText
 import org.kl.smartbuy.viewmodel.PurchaseListViewModel
 
 @Composable
-fun PurchaseListScreen(viewModel: PurchaseListViewModel/* = viewModel()*/) {
+fun PurchaseListScreen(
+    navigationController: NavHostController,
+    viewModel: PurchaseListViewModel,
+) {
     val purchases: LazyPagingItems<Purchase> = viewModel.purchases.collectAsLazyPagingItems()
 
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-        modifier = Modifier.padding(top = 4.dp)
-    ) {
-        items(purchases) { purchase ->
-            if (purchase != null) {
-                PurchaseItem(purchase)
-            } else {
-                PurchaseItemPlaceholder()
+    if (purchases.itemCount != 0) {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            modifier = Modifier.padding(top = 4.dp)
+        ) {
+            items(purchases) { purchase ->
+                if (purchase != null) {
+                    PurchaseItem(purchase)
+                } else {
+                    PurchaseItemPlaceholder()
+                }
             }
         }
+    } else {
+        CenterScreenText(stringResource(R.string.empty_purchases))
     }
 }
 

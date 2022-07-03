@@ -31,8 +31,6 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildFeatures {
-        dataBinding = true
-        viewBinding = true
         compose true
     }
     defaultConfig {
@@ -82,10 +80,7 @@ dependencies {
 
     // Ui
     implementation "com.google.android.material:material:$rootProject.materialVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
     implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentVersion"
-    implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerViewVersion"
-    implementation "androidx.viewpager2:viewpager2:$rootProject.viewPagerVersion"
 
     // Compose
     implementation "androidx.activity:activity-compose:$rootProject.composeActivityVersion"
@@ -93,7 +88,6 @@ dependencies {
     implementation "androidx.compose.animation:animation:$rootProject.composeVersion"
     implementation "androidx.compose.ui:ui-tooling-preview:$rootProject.composeVersion"
     implementation "com.google.android.material:compose-theme-adapter:$rootProject.mdcThemeVersion"
-    implementation "io.coil-kt:coil-compose:$rootProject.coilVersion"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$rootProject.composeVersion"
 
     // Lifecycle
@@ -105,6 +99,7 @@ dependencies {
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
+    implementation "androidx.navigation:navigation-compose:$rootProject.navigationVersion"
 
     // Pagging
     implementation "androidx.paging:paging-runtime-ktx:$rootProject.pagingVersion"
@@ -126,6 +121,7 @@ dependencies {
     // Hilt
     kapt "com.google.dagger:hilt-android-compiler:$rootProject.hiltVersion"
     implementation "com.google.dagger:hilt-android:$rootProject.hiltVersion"
+    implementation "androidx.hilt:hilt-navigation-compose:$rootProject.hiltComposeVersion"
     androidTestImplementation "com.google.dagger:hilt-android-testing:$rootProject.hiltVersion"
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$rootProject.hiltVersion"
 

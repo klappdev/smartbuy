@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">smartbuy</string>
 
-    <string name="category_tab">Category</string>
-    <string name="purchase_tab">Purchase</string>
+    <string name="category_title">Category</string>
+    <string name="purchase_title">Purchase</string>
 
     <string name="product_detail_title">Product detail</string>
     <string name="category_detail_title">Category detail</string>

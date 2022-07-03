@@ -30,11 +30,11 @@ import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 
 import org.kl.smartbuy.R
-import org.kl.smartbuy.ui.purchase.PurchaseListFragment
 
 class SearchPurchaseListener(
-    private val purchaseListFragment: PurchaseListFragment
+    /*private val purchaseListFragment: PurchaseListFragment*/
 ) : View.OnClickListener, MenuItem.OnActionExpandListener, SearchView.OnQueryTextListener {
+    /*
     private val purchaseAdapter = purchaseListFragment.purchaseAdapter
     private val purchasesViewModel = purchaseListFragment.purchasesViewModel
 
@@ -42,15 +42,17 @@ class SearchPurchaseListener(
     private var searchInput: TextView? = null
     private var closeIcon: ImageView? = null
     private var currentSize: Int = -1
-
+    */
     override fun onQueryTextChange(newText: String?): Boolean {
         if (!newText.isNullOrEmpty()) {
+            /*
             purchasesViewModel.searchPurchases(newText) { data ->
                 purchaseAdapter.submitData(data)
                 purchaseAdapter.notifyDataSetChanged()
 
                 currentSize = purchaseAdapter.itemCount
             }
+            */
         } else {
             refreshPurchases()
         }
@@ -61,6 +63,7 @@ class SearchPurchaseListener(
     override fun onQueryTextSubmit(query: String?) = true
 
     override fun onMenuItemActionExpand(view: MenuItem?): Boolean {
+        /*
         if (searchView == null) {
             searchView = view?.actionView as SearchView
             searchView?.queryHint = purchaseListFragment.getString(R.string.search_hint)
@@ -70,24 +73,29 @@ class SearchPurchaseListener(
             this.closeIcon = searchView?.findViewById(androidx.appcompat.R.id.search_close_btn)
             closeIcon?.setOnClickListener(this)
         }
+        */
 
         return true
     }
 
     override fun onMenuItemActionCollapse(view: MenuItem?): Boolean {
+        /*
         purchaseAdapter.position = -1
         purchaseListFragment.notifyMenuItemSelected(false)
         refreshPurchases()
-
+        */
         return true
     }
 
     override fun onClick(view: View?) {
+        /*
         refreshPurchases()
         searchInput?.text = ""
+        */
     }
 
     private fun refreshPurchases() {
+        /*
         purchasesViewModel.getPurchases { data ->
             if (currentSize != -1) {
                 purchaseAdapter.submitData(data)
@@ -95,7 +103,7 @@ class SearchPurchaseListener(
 
                 currentSize = -1
             }
-
         }
+        */
     }
 }

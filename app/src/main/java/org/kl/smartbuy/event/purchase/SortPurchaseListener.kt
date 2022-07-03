@@ -23,17 +23,18 @@
  */
 package org.kl.smartbuy.event.purchase
 
-import org.kl.smartbuy.ui.purchase.PurchaseListFragment
-
-class SortPurchaseListener(fragment: PurchaseListFragment) {
+class SortPurchaseListener(/*fragment: PurchaseListFragment*/) {
+    /*
     private val purchaseAdapter = fragment.purchaseAdapter
     private val purchasesViewModel = fragment.purchasesViewModel
-
+    */
     operator fun invoke(): Boolean {
+        /*
         purchasesViewModel.sortPurchases { data ->
             purchaseAdapter.submitData(data)
             purchaseAdapter.notifyDataSetChanged()
         }
+        */
 
         return true
     }
